@@ -1,6 +1,6 @@
 <template>
     <div>
-test
+        test
     </div>
 </template>
 
@@ -8,6 +8,4 @@ test
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
