@@ -18,6 +18,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier-vue": "^5.0.0",
     "eslint-plugin-vue": "^9.27.0",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "wp-types": "^3.66.0"
   }
 }
