@@ -1,16 +1,16 @@
 <template>
   <div>
     <h1>Post Index</h1>
-    <!-- <span v-html="post"></span> -->
+    <article v-html="currentPost.content.rendered" />
+    <!-- <pre>{{ currentPost }}</pre> -->
   </div>
 </template>
 
 <script setup lang="ts">
-// import type { WP_REST_API_Posts } from 'wp-types';
+import { usePostsStore } from '@/stores/posts'
 
-// const { data } = await useAsyncData('posts', () => $fetch('/api/posts'))
-// const posts = data.value as unknown as WP_REST_API_Posts
-// const post = posts[0].content.rendered
+const postsStore = usePostsStore()
+const currentPost = computed(() => postsStore.currentPost)
 </script>
 
 <style scoped></style>

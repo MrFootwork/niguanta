@@ -13,8 +13,8 @@
         class="link-to-post"
         :to="{
           path: `${currentCategory}/${post.slug}`,
-          query: { postId: post.id },
         }"
+        @click="selectPost(post.id)"
         v-html="post.title.rendered"
       />
     </div>
@@ -31,6 +31,8 @@ const currentCategory = route.path
 const postsStore = usePostsStore()
 postsStore.setCurrentCategory(+(categoryId || 0))
 const posts = computed(() => postsStore.postsByCategory)
+
+const selectPost = (postId: number) => postsStore.setCurrentPost(postId)
 </script>
 
 <style scoped>

@@ -3,12 +3,13 @@ import type { WP_REST_API_Posts } from 'wp-types'
 
 export const usePostsStore = defineStore('posts', () => {
   const posts = ref<WP_REST_API_Posts>([])
-  const currentCategory = ref<number>(0)
+  const currentCategoryId = ref<number>(0)
+  const currentPostId = ref<number>(0)
 
   async function addPostsByCategory() {
     // TODO handle errors
     const { data } = await useAsyncData('posts', () =>
-      $fetch(`/api/posts?categoryId=${currentCategory.value}`),
+      $fetch(`/api/posts?categoryId=${currentCategoryId.value}`),
     )
 
     if (data) {
@@ -18,22 +19,29 @@ export const usePostsStore = defineStore('posts', () => {
   }
 
   async function setCurrentCategory(categoryId: number) {
-    currentCategory.value = categoryId
-    // TODO only add new posts
+    currentCategoryId.value = categoryId
     const postsIncludeCategory = posts.value.find((post) => {
-      console.log('CHECK POST ', post.categories, categoryId, post.categories?.includes(categoryId))
       return post.categories?.includes(categoryId)
     })
 
     if (!postsIncludeCategory) await addPostsByCategory()
   }
 
+  function setCurrentPost(postId: number) {
+    currentPostId.value = postId
+  }
+
   const postsByCategory = computed(() => {
-    console.log('...searching for posts')
     return posts.value.filter((post) => {
-      return (post.categories![0] || 0) === currentCategory.value
+      return (post.categories![0] || 0) === currentCategoryId.value
     })
   })
 
-  return { addPostsByCategory, setCurrentCategory, postsByCategory }
+  const currentPost = computed(() => {
+    return posts.value.filter(post => post.id === currentPostId.value)[0]
+  })
+
+  const postCount = computed(() => posts.value.length)
+
+  return { addPostsByCategory, setCurrentCategory, setCurrentPost, postsByCategory, currentPost, postCount }
 })
