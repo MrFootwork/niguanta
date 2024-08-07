@@ -2,7 +2,11 @@
     <div>
         Category Index
         <div v-for="post in posts">
-            <h3 class="title" v-html="post.title.rendered"></h3>
+            <!-- <pre>{{ post }}</pre> -->
+            <!-- <NuxtLink class="link-to-post" v-html="post.title.rendered" /> -->
+            <!-- <div>{{ post }}</div> -->
+            <NuxtLink class=" link-to-post" v-html="post.title.rendered"
+                :to="{ path: `${currentCategory}/${post.slug}`, query: { postId: post.id } }" />
 
         </div>
     </div>
@@ -11,16 +15,18 @@
 <script setup lang="ts">
 import type { WP_REST_API_Posts } from 'wp-types';
 
-const { categoryId } = useRoute().query
+const route = useRoute()
+const { categoryId } = route.query
+const currentCategory = route.path
 
+// FIXME create pinia store and store posts for reuse
 const { data } = await useAsyncData('posts', () => $fetch(`/api/posts?categoryId=${categoryId}`))
 const posts = data.value as unknown as WP_REST_API_Posts
 
 </script>
 
 <style scoped>
-.title {
-    font-weight: 100;
+.link-to-post {
     color: tomato;
 }
 </style>

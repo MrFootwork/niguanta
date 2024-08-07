@@ -6,7 +6,7 @@
             <div>{{ category.link }}</div>
             <div>{{ category.id }}</div>
             <NuxtLink
-                :to="{ path: stringToPath(category.name), query: { categoryId: category.id } }">
+                :to="{ path: category.slug, query: { categoryId: category.id } }">
                 {{ category.name }}
             </NuxtLink>
         </div>
@@ -19,7 +19,7 @@ import type { WP_REST_API_Categories } from 'wp-types';
 const { data } = await useAsyncData('categories', () => $fetch('/api/categories'))
 const categories = data.value as unknown as WP_REST_API_Categories
 
-const stringToPath = (text: string): string => text.replaceAll(/\s+/g, '-').toLocaleLowerCase()
+// const stringToPath = (text: string): string => text.replaceAll(/\s+/g, '-').toLocaleLowerCase()
 
 </script>
 
