@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Post</h1>
+    <h5>Post</h5>
     <NuxtPage />
   </div>
 </template>

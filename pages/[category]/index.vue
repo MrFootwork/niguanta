@@ -1,14 +1,11 @@
 <template>
   <div>
-    Category Index
-    <!-- <pre>{{ posts }}</pre> -->
+    <h5>Category Index</h5>
     <div
       v-for="post in posts"
       :key="post.id"
     >
-      <!-- <pre>{{ post }}</pre> -->
-      <!-- <NuxtLink class="link-to-post" v-html="post.title.rendered" /> -->
-      <!-- <div>{{ post }}</div> -->
+      <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
       <NuxtLink
         class="link-to-post"
         :to="{
@@ -17,6 +14,7 @@
         @click="selectPost(post.id)"
         v-html="post.title.rendered"
       />
+      <!-- eslint-enable -->
     </div>
   </div>
 </template>
