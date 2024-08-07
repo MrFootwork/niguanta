@@ -1,8 +1,8 @@
 <template>
-    <div>
-        Category
-        <NuxtPage></NuxtPage>
-    </div>
+  <div>
+    Category
+    <NuxtPage />
+  </div>
 </template>
 
 <script setup lang="ts">

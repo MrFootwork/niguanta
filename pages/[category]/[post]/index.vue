@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <h1>Post Index</h1>
-        <!-- <span v-html="post"></span> -->
-    </div>
+  <div>
+    <h1>Post Index</h1>
+    <!-- <span v-html="post"></span> -->
+  </div>
 </template>
 
 <script setup lang="ts">
-import type { WP_REST_API_Posts } from 'wp-types';
+// import type { WP_REST_API_Posts } from 'wp-types';
 
 // const { data } = await useAsyncData('posts', () => $fetch('/api/posts'))
 // const posts = data.value as unknown as WP_REST_API_Posts
