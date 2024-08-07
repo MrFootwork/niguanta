@@ -1,8 +1,10 @@
 <template>
   <div>
-    <h1>Post Index</h1>
+    <h5>Post Index</h5>
+    <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
+    <h1 v-html="currentPost.title.rendered" />
     <article v-html="currentPost.content.rendered" />
-    <!-- <pre>{{ currentPost }}</pre> -->
+    <!-- eslint-enable -->
   </div>
 </template>
 
