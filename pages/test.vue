@@ -1,17 +1,29 @@
 <template>
     <div>
         this is test
-        <span v-html="post"></span>
+        <!-- <span v-html="posts"></span> -->
+        <!-- <pre>{{ categories }}</pre> -->
+        <div class="card" v-for="cat in categories">
+            <div>{{ cat.id }}</div>
+            <div>{{ cat.name }}</div>
+        </div>
+        <pre>{{ posts }}</pre>
     </div>
 </template>
 
 <script setup lang="ts">
-import type { WP_REST_API_Posts } from 'wp-types';
+import type { WP_REST_API_Posts, WP_REST_API_Categories } from 'wp-types';
 
-const { data } = await useAsyncData('posts', () => $fetch('/api/posts'))
-const posts = data.value as unknown as WP_REST_API_Posts
-const post = posts[0].content.rendered
+const postsData = await useAsyncData('posts', () => $fetch('/api/posts'))
+const posts = postsData.data.value as unknown as WP_REST_API_Posts
+
+const categoriesData = await useAsyncData('posts', () => $fetch('/api/categories'))
+const categories = categoriesData.data.value as unknown as WP_REST_API_Categories
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.card {
+    margin: 1rem 0;
+}
+</style>
