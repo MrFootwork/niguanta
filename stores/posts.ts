@@ -1,16 +1,39 @@
 import { defineStore } from 'pinia'
+import type { WP_REST_API_Posts } from 'wp-types'
 
-// You can name the return value of `defineStore()` anything you want,
-// but it's best to use the name of the store and surround it with `use`
-// and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
-// the first argument is a unique id of the store across your application
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const name = ref('Eduardo')
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+export const usePostsStore = defineStore('posts', () => {
+  const posts = ref<WP_REST_API_Posts>([])
+  const currentCategory = ref<number>(0)
+
+  async function addPostsByCategory() {
+    // TODO handle errors
+    const { data } = await useAsyncData('posts', () =>
+      $fetch(`/api/posts?categoryId=${currentCategory.value}`),
+    )
+
+    if (data) {
+      const additionalPosts = data.value as unknown as WP_REST_API_Posts
+      posts.value.push(...additionalPosts)
+    }
   }
 
-  return { count, name, doubleCount, increment }
+  async function setCurrentCategory(categoryId: number) {
+    currentCategory.value = categoryId
+    // TODO only add new posts
+    const postsIncludeCategory = posts.value.find((post) => {
+      console.log('CHECK POST ', post.categories, categoryId, post.categories?.includes(categoryId))
+      return post.categories?.includes(categoryId)
+    })
+
+    if (!postsIncludeCategory) await addPostsByCategory()
+  }
+
+  const postsByCategory = computed(() => {
+    console.log('...searching for posts')
+    return posts.value.filter((post) => {
+      return (post.categories![0] || 0) === currentCategory.value
+    })
+  })
+
+  return { addPostsByCategory, setCurrentCategory, postsByCategory }
 })
