@@ -11,12 +11,9 @@ export const usePostStore = defineStore('posts', () => {
   // ACTIONS
   async function fetchPostsByCategory() {
     // TODO handle errors
-    const { data } = await useAsyncData('posts', () =>
-      $fetch(`/api/posts?categoryId=${currentCategoryId.value}`),
-    )
+    const additionalPosts = await $fetch(`/api/posts?categoryId=${currentCategoryId.value}`) as unknown as WP_REST_API_Posts
 
-    if (data) {
-      const additionalPosts = data.value as unknown as WP_REST_API_Posts
+    if (additionalPosts) {
       posts.value.push(...additionalPosts)
     }
   }
@@ -31,13 +28,8 @@ export const usePostStore = defineStore('posts', () => {
     }
   }
 
-  async function setCurrentCategory(categoryId: number) {
+  function setCurrentCategory(categoryId: number) {
     currentCategoryId.value = categoryId
-    const postsIncludeCategory = posts.value.find((post) => {
-      return post.categories?.includes(categoryId)
-    })
-
-    if (!postsIncludeCategory) await fetchPostsByCategory()
   }
 
   function setCurrentPost(postId: number) {
@@ -47,7 +39,7 @@ export const usePostStore = defineStore('posts', () => {
   // GETTERS
   const postsByCategory = computed(() => {
     return posts.value.filter((post) => {
-      return (post.categories![0] || 0) === currentCategoryId.value
+      return (post.categories![0]) === currentCategoryId.value
     })
   })
 
@@ -66,6 +58,8 @@ export const usePostStore = defineStore('posts', () => {
   const postCount = computed(() => posts.value.length)
 
   return {
+    posts,
+    currentCategoryId,
     fetchPostsByCategory,
     fetchPostBySlug,
     setCurrentCategory,

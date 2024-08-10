@@ -24,7 +24,7 @@ const { currentPost } = storeToRefs(postStore)
 onBeforeMount(() => {
   const postsIncludeSlug = computed(() => postStore.postsIncludeSlug(slug || ''))
   const slugPostId = postStore.getPostIdBySlug(slug || '')?.id
-  console.log('🚀 ~ onBeforeMount ~ slugPostId:', slugPostId)
+  // console.log('🚀 ~ onBeforeMount ~ slugPostId:', slugPostId)
 
   if (postsIncludeSlug.value) {
     postStore.setCurrentPost(slugPostId || 0)
