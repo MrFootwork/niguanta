@@ -12,7 +12,7 @@
           path: `${currentCategory}/${post.slug}`,
         }"
         @click="selectPost(post.id)"
-        v-html="post.title.rendered"
+        v-html="post?.title?.rendered"
       />
       <!-- eslint-enable -->
     </div>
@@ -27,7 +27,11 @@ const { categoryId } = route.query
 const currentCategory = route.path
 
 const postsStore = usePostsStore()
-postsStore.setCurrentCategory(+(categoryId || 0))
+
+if (categoryId) {
+  postsStore.setCurrentCategory(+(categoryId || 0))
+}
+
 const posts = computed(() => postsStore.postsByCategory)
 
 const selectPost = (postId: number) => postsStore.setCurrentPost(postId)
