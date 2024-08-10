@@ -3,7 +3,7 @@ import type { WP_REST_API_Post, WP_REST_API_Posts } from 'wp-types'
 
 const unset = 0
 
-export const usePostsStore = defineStore('posts', () => {
+export const usePostStore = defineStore('posts', () => {
   const posts = ref<WP_REST_API_Posts>([])
   const currentCategoryId = ref<number>(unset)
   const currentPostId = ref<number>(unset)

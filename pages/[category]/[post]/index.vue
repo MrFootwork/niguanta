@@ -13,25 +13,25 @@
 </template>
 
 <script setup lang="ts">
-import { usePostsStore } from '@/stores/posts'
+import { usePostStore } from '@/stores/posts'
 
 const route = useRoute()
 const slug = route.path.split('/').at(-1)
 
-const postsStore = usePostsStore()
-const { currentPost } = storeToRefs(postsStore)
+const postStore = usePostStore()
+const { currentPost } = storeToRefs(postStore)
 
 onBeforeMount(() => {
-  const postsIncludeSlug = computed(() => postsStore.postsIncludeSlug(slug || ''))
-  const slugPostId = postsStore.getPostIdBySlug(slug || '')?.id
+  const postsIncludeSlug = computed(() => postStore.postsIncludeSlug(slug || ''))
+  const slugPostId = postStore.getPostIdBySlug(slug || '')?.id
   console.log('🚀 ~ onBeforeMount ~ slugPostId:', slugPostId)
 
   if (postsIncludeSlug.value) {
-    postsStore.setCurrentPost(slugPostId || 0)
+    postStore.setCurrentPost(slugPostId || 0)
   }
 
   if (!postsIncludeSlug.value && slug) {
-    postsStore.fetchPostBySlug(slug)
+    postStore.fetchPostBySlug(slug)
   }
 })
 </script>

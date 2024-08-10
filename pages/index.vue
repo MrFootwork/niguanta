@@ -2,7 +2,7 @@
   <div>
     <h5>Home</h5>
     <div
-      v-for="category in categories"
+      v-for="category in validCategories"
       :key="category.id"
       class="category"
     >
@@ -10,7 +10,7 @@
       <div>{{ category.link }}</div>
       <div>{{ category.id }}</div>
       <NuxtLink
-        :to="{ path: category.slug, query: { categoryId: category.id } }"
+        :to="{ path: category.slug }"
       >
         {{ category.name }}
       </NuxtLink>
@@ -19,14 +19,16 @@
 </template>
 
 <script setup lang="ts">
-import type { WP_REST_API_Categories } from 'wp-types'
+import { useCategoryStore } from '@/stores/categories'
 
-const { data } = await useAsyncData('categories', () =>
-  $fetch('/api/categories'),
-)
-const categories = data.value as unknown as WP_REST_API_Categories
+const categoryStore = useCategoryStore()
+const { validCategories } = storeToRefs(categoryStore)
 
-// const stringToPath = (text: string): string => text.replaceAll(/\s+/g, '-').toLocaleLowerCase()
+onBeforeMount(() => {
+  if (validCategories.value.length === 0) {
+    categoryStore.fetchCategories()
+  }
+})
 </script>
 
 <style scoped>
