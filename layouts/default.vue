@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="test">
-      This is Header
+      Niguanta
     </header>
     <slot />
     <div>

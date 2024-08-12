@@ -12,6 +12,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@nuxt/fonts": "^0.7.2",
     "@pinia/nuxt": "^0.5.3",
     "nuxt": "^3.12.4",
     "pinia": "^2.2.1",
