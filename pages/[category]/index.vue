@@ -2,7 +2,7 @@
   <div>
     <h5>Category Index</h5>
 
-    <div>{{ validCategories.length }}</div>
+    <div>{{ categories.length }}</div>
 
     <div
       v-for="post in postsByCategory"
@@ -12,7 +12,7 @@
       <NuxtLink
         class="link-to-post"
         :to="{
-          path: `${currentCategory}/${post.slug}`,
+          path: `${currentCategory?.slug}/${post.slug}`,
         }"
         @click="postStore.setCurrentPost(post.id)"
         v-html="post?.title?.rendered"
@@ -30,7 +30,8 @@ const route = useRoute()
 const categorySlug = route.path.slice(1)
 
 const categoryStore = useCategoryStore()
-const { validCategories, currentCategory } = storeToRefs(categoryStore)
+const { categories, currentCategory } = storeToRefs(categoryStore)
+const categoryId = computed(() => categoryStore.getCategoryIdBySlug(categorySlug))
 
 const postStore = usePostStore()
 const { postsByCategory } = storeToRefs(postStore)
@@ -38,19 +39,14 @@ const { postsByCategory } = storeToRefs(postStore)
 // FIXME create navigation store
 
 onMounted(async () => {
-  const categoryId = computed(() => categoryStore.getCategoryIdBySlug(categorySlug))
-
   if (!categoryId.value) {
     await categoryStore.fetchCategories()
-    categoryStore.setCategoryId(categoryId.value)
   }
 
-  postStore.setCurrentCategory(+(categoryId.value || 0))
-  // FIXME only fetch posts, if post count doesn't match postcount in category
-  // if it doesn't match, delete store for these category first
-  // then fetch
-  // BUG visiting category twice, fetches twice
-  postStore.fetchPostsByCategory()
+  categoryStore.setCategoryId(categoryId.value)
+  postStore.setCurrentCategory(+(categoryId.value))
+  const postByCategoryCountMatch = postsByCategory.value.length === currentCategory.value?.count
+  if (!postByCategoryCountMatch) await postStore.fetchPostsByCategory()
 })
 </script>
 

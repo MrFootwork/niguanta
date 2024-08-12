@@ -2,9 +2,9 @@
   <div>
     <h5>TEST</h5>
     <!-- <pre>{{ categories[6] }}</pre> -->
-    <div>Valid Category Count {{ validCategories.length }}</div>
+    <div>Valid Category Count {{ categories.length }}</div>
     <div
-      v-for="cat in validCategories"
+      v-for="cat in categories"
       :key="cat.id"
       class="card"
     >
@@ -19,10 +19,10 @@
 import { useCategoryStore } from '@/stores/categories'
 
 const categoryStore = useCategoryStore()
-const { validCategories } = storeToRefs(categoryStore)
+const { categories } = storeToRefs(categoryStore)
 
 onBeforeMount(() => {
-  if (validCategories.value.length === 0) {
+  if (categories.value.length === 0) {
     categoryStore.fetchCategories()
   }
 })

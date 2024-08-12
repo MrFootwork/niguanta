@@ -2,7 +2,7 @@
   <div>
     <h5>Home</h5>
     <div
-      v-for="category in validCategories"
+      v-for="category in categories"
       :key="category.id"
       class="category"
     >
@@ -15,6 +15,8 @@
         {{ category.name }}
       </NuxtLink>
     </div>
+
+    <pre>{{ categories.slice(1, 4) }}</pre>
   </div>
 </template>
 
@@ -22,10 +24,10 @@
 import { useCategoryStore } from '@/stores/categories'
 
 const categoryStore = useCategoryStore()
-const { validCategories } = storeToRefs(categoryStore)
+const { categories } = storeToRefs(categoryStore)
 
 onBeforeMount(() => {
-  if (validCategories.value.length === 0) {
+  if (categories.value.length === 0) {
     categoryStore.fetchCategories()
   }
 })

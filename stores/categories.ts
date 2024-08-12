@@ -6,7 +6,6 @@ const unset = 0
 export const useCategoryStore = defineStore('categories', () => {
   // STATE
   const categories = ref<WP_REST_API_Categories>([])
-  const validCategories = ref<WP_REST_API_Categories>([])
   const currentCategoryId = ref<number>(unset)
 
   // ACTIONS
@@ -14,7 +13,6 @@ export const useCategoryStore = defineStore('categories', () => {
     // TODO avoid duplicate categories from unintentional fetch
     const fetchedCategories = await $fetch('/api/categories') as unknown as WP_REST_API_Categories
     categories.value.push(...fetchedCategories)
-    validCategories.value.push(...fetchedCategories.filter(category => category.count !== 0))
   }
 
   function setCategoryId(newId: number) {
@@ -31,11 +29,14 @@ export const useCategoryStore = defineStore('categories', () => {
   })
 
   return {
-    validCategories,
+    // state
+    categories,
     currentCategoryId,
-    setCategoryId,
-    currentCategory,
+    // actions
     fetchCategories,
+    setCategoryId,
+    // getters
     getCategoryIdBySlug,
+    currentCategory,
   }
 })
