@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <header class="ingrid-darling">
+  <div class="layout-container">
+    <header class="header-container ingrid-darling">
       Niguanta
     </header>
-    <nav>
+    <nav class="navigation-container">
       <ul>
         <li
           v-for="page in pages"
@@ -15,7 +15,7 @@
         </li>
       </ul>
     </nav>
-    <slot />
+    <slot class="content-container" />
     <div>
       <div>Posts Count {{ postCount }}</div>
       <div>Full Path: {{ $route.fullPath }}</div>
@@ -54,5 +54,15 @@ onBeforeMount(() => {
 </script>
 
 <style scoped lang="scss">
-
+.layout-container {
+  width: min(100vdw, 900px);
+  display: grid;
+  // align-items: center;
+  // justify-content: center;
+  .header-container {
+    font-size: 3rem;
+    font-weight: 400;
+    font-style: normal;
+  }
+}
 </style>

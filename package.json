@@ -14,6 +14,7 @@
   "dependencies": {
     "@nuxt/fonts": "^0.7.2",
     "@pinia/nuxt": "^0.5.3",
+    "normalize.css": "^8.0.1",
     "nuxt": "^3.12.4",
     "pinia": "^2.2.1",
     "vue": "latest"
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@nuxt/eslint": "^0.5.0",
     "sass": "^1.77.8",
+    "scss-reset": "^1.4.2",
     "wp-types": "^3.66.0"
   },
   "overrides": {
