@@ -1,5 +1,8 @@
 <template>
   <div>
+    <header class="test">
+      This is Header
+    </header>
     <slot />
     <div>
       <div>Posts Count {{ postCount }}</div>
@@ -17,4 +20,8 @@ const postsStore = usePostStore()
 const postCount = computed(() => postsStore.postCount)
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.test {
+  color: red
+}
+</style>

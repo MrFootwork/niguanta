@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.5.0",
+    "sass": "^1.77.8",
     "wp-types": "^3.66.0"
   },
   "overrides": {
