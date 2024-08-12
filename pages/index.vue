@@ -10,23 +10,27 @@
       <div>{{ category.link }}</div>
       <div>{{ category.id }}</div>
       <NuxtLink
-        :to="{ path: category.slug, query: { categoryId: category.id } }"
+        :to="{ path: category.slug }"
       >
         {{ category.name }}
       </NuxtLink>
     </div>
+
+    <pre>{{ categories.slice(1, 4) }}</pre>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { WP_REST_API_Categories } from 'wp-types'
+import { useCategoryStore } from '@/stores/categories'
 
-const { data } = await useAsyncData('categories', () =>
-  $fetch('/api/categories'),
-)
-const categories = data.value as unknown as WP_REST_API_Categories
+const categoryStore = useCategoryStore()
+const { categories } = storeToRefs(categoryStore)
 
-// const stringToPath = (text: string): string => text.replaceAll(/\s+/g, '-').toLocaleLowerCase()
+onBeforeMount(() => {
+  if (categories.value.length === 0) {
+    categoryStore.fetchCategories()
+  }
+})
 </script>
 
 <style scoped>

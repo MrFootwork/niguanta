@@ -11,9 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import { usePostsStore } from '@/stores/posts'
+import { usePostStore } from '@/stores/posts'
 
-const postsStore = usePostsStore()
+const postsStore = usePostStore()
 const postCount = computed(() => postsStore.postCount)
 </script>
 

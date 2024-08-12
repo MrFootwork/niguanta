@@ -1,9 +1,8 @@
 <template>
   <div>
     <h5>TEST</h5>
-    <!-- <span v-html="posts"></span> -->
-    <!-- <pre>{{ categories }}</pre> -->
-    <div>Category Count {{ categories.length }}</div>
+    <!-- <pre>{{ categories[6] }}</pre> -->
+    <div>Valid Category Count {{ categories.length }}</div>
     <div
       v-for="cat in categories"
       :key="cat.id"
@@ -11,16 +10,22 @@
     >
       <div>{{ cat.id }}</div>
       <div>{{ cat.name }}</div>
+      <div>count: {{ cat.count }}</div>
     </div>
-    <!-- <pre>{{ posts }}</pre> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import type { WP_REST_API_Categories } from 'wp-types'
+import { useCategoryStore } from '@/stores/categories'
 
-const categoriesData = await useAsyncData('posts', () => $fetch('/api/categories'))
-const categories = categoriesData.data.value as unknown as WP_REST_API_Categories
+const categoryStore = useCategoryStore()
+const { categories } = storeToRefs(categoryStore)
+
+onBeforeMount(() => {
+  if (categories.value.length === 0) {
+    categoryStore.fetchCategories()
+  }
+})
 </script>
 
 <style scoped>

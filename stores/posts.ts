@@ -1,47 +1,73 @@
 import { defineStore } from 'pinia'
-import type { WP_REST_API_Posts } from 'wp-types'
+import type { WP_REST_API_Post, WP_REST_API_Posts } from 'wp-types'
 
-export const usePostsStore = defineStore('posts', () => {
+const unset = 0
+
+export const usePostStore = defineStore('posts', () => {
   const posts = ref<WP_REST_API_Posts>([])
-  const currentCategoryId = ref<number>(0)
-  const currentPostId = ref<number>(0)
+  const currentCategoryId = ref<number>(unset)
+  const currentPostId = ref<number>(unset)
 
-  async function addPostsByCategory() {
+  // ACTIONS
+  async function fetchPostsByCategory() {
     // TODO handle errors
-    const { data } = await useAsyncData('posts', () =>
-      $fetch(`/api/posts?categoryId=${currentCategoryId.value}`),
-    )
+    const additionalPosts = await $fetch(`/api/posts?categoryId=${currentCategoryId.value}`) as unknown as WP_REST_API_Posts
 
-    if (data) {
-      const additionalPosts = data.value as unknown as WP_REST_API_Posts
+    if (additionalPosts) {
       posts.value.push(...additionalPosts)
     }
   }
 
-  async function setCurrentCategory(categoryId: number) {
-    currentCategoryId.value = categoryId
-    const postsIncludeCategory = posts.value.find((post) => {
-      return post.categories?.includes(categoryId)
-    })
+  async function fetchPostBySlug(slug: string) {
+    const data = await $fetch(`/api/posts?slug=${slug}`)
 
-    if (!postsIncludeCategory) await addPostsByCategory()
+    if (data) {
+      const additionalPost = data[0] as unknown as WP_REST_API_Post
+      posts.value.push(additionalPost)
+      setCurrentPost(additionalPost.id)
+    }
+  }
+
+  function setCurrentCategory(categoryId: number) {
+    currentCategoryId.value = categoryId
   }
 
   function setCurrentPost(postId: number) {
     currentPostId.value = postId
   }
 
+  // GETTERS
   const postsByCategory = computed(() => {
     return posts.value.filter((post) => {
-      return (post.categories![0] || 0) === currentCategoryId.value
+      return (post.categories![0]) === currentCategoryId.value
     })
   })
 
   const currentPost = computed(() => {
-    return posts.value.filter(post => post.id === currentPostId.value)[0]
+    return posts.value.find(post => post?.id === currentPostId.value)
   })
+
+  function postsIncludeSlug(searchSlug: string) {
+    return posts.value.some(post => post.slug === searchSlug)
+  }
+
+  function getPostIdBySlug(searchSlug: string) {
+    return posts.value.find(post => post.slug === searchSlug)
+  }
 
   const postCount = computed(() => posts.value.length)
 
-  return { addPostsByCategory, setCurrentCategory, setCurrentPost, postsByCategory, currentPost, postCount }
+  return {
+    posts,
+    currentCategoryId,
+    fetchPostsByCategory,
+    fetchPostBySlug,
+    setCurrentCategory,
+    setCurrentPost,
+    postsIncludeSlug,
+    postsByCategory,
+    getPostIdBySlug,
+    currentPost,
+    postCount,
+  }
 })
