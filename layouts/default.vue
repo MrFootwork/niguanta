@@ -1,15 +1,23 @@
 <template>
   <div class="layout-container">
     <header class="header-container ingrid-darling">
-      Niguanta
+      <NuxtLink
+        :to="'/'"
+        class="link header-link"
+      >
+        Niguanta
+      </NuxtLink>
     </header>
-    <nav class="navigation-container">
+    <nav class="navigation-container istok-web-regular">
       <ul>
         <li
           v-for="page in pages"
           :key="page.id"
         >
-          <NuxtLink :to="page.slug">
+          <NuxtLink
+            :to="`/${page.slug}`"
+            class="link nav-link"
+          >
             {{ page.title.rendered }}
           </NuxtLink>
         </li>
@@ -54,15 +62,46 @@ onBeforeMount(() => {
 </script>
 
 <style scoped lang="scss">
+.link {
+  text-decoration: none;
+
+  transition: all .2s ease-in-out;
+  color: grey;
+
+  &:hover {
+    color: black
+  }
+}
+
 .layout-container {
-  width: min(100vdw, 900px);
-  display: grid;
-  // align-items: center;
-  // justify-content: center;
+  width: 100%;
+
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+
   .header-container {
-    font-size: 3rem;
-    font-weight: 400;
+    font-size: 4rem;
+    font-weight: 900;
     font-style: normal;
+
+    margin: 2rem 0;
+
+    .header-link {
+      color: black
+    }
+  }
+
+  .navigation-container>ul {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+
+    margin: 2rem 0;
+
+    .nav-link {
+      padding: 2rem 2vw;
+    }
   }
 }
 </style>

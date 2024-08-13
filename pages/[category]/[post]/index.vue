@@ -34,4 +34,8 @@ onBeforeMount(() => {
 })
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+article {
+  max-width: min(100dvw, 900px);
+}
+</style>
