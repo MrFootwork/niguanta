@@ -26,11 +26,11 @@ import { useCategoryStore } from '@/stores/categories'
 const categoryStore = useCategoryStore()
 const { categories } = storeToRefs(categoryStore)
 
-onBeforeMount(() => {
-  if (categories.value.length === 0) {
-    categoryStore.fetchCategories()
-  }
-})
+// onBeforeMount(() => {
+//   if (categories.value.length === 0) {
+//     categoryStore.fetchCategories()
+//   }
+// })
 </script>
 
 <style scoped>

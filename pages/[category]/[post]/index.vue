@@ -2,7 +2,7 @@
   <div>
     <h5>Post Index</h5>
     <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
-    <pre>currentPost: {{ currentPost }}</pre>
+    <!-- <pre>currentPost: {{ currentPost }}</pre> -->
     <h1 v-html="currentPost?.title.rendered" />
     <article>
       <p v-html="currentPost?.content.rendered" />
@@ -34,4 +34,8 @@ onBeforeMount(() => {
 })
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+article {
+  max-width: min(100dvw, 900px);
+}
+</style>
