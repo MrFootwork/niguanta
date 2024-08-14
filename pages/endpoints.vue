@@ -28,10 +28,11 @@
       <div>{{ endpointItem.title?.rendered }}</div>
       <div>{{ endpointItem.slug }}</div>
       <div>{{ endpointItem.link }}</div>
+      <div>{{ endpointItem.menu_order }}</div>
       <!-- <div>{{ endpointItem.content.rendered }}</div> -->
     </div>
 
-    <pre>{{ endpoints[4] }}</pre>
+    <pre>{{ endpoints[1] }}</pre>
   </div>
 </template>
 
@@ -50,7 +51,7 @@ async function inspectEndpoint() {
     endpoints.value = await $fetch(`${useRuntimeConfig().public.wpRestApiBaseUrl}/${queryEndpoint.value}${query.value}`)
   }
   catch (e) {
-    console.log(e)
+    console.error(e)
   }
 }
 </script>
