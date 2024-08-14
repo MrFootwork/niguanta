@@ -8,6 +8,7 @@
         Niguanta
       </NuxtLink>
     </header>
+
     <nav class="navigation-container istok-web-regular">
       <ul>
         <li
@@ -23,7 +24,9 @@
         </li>
       </ul>
     </nav>
+
     <slot class="content-container" />
+
     <div>
       <div>Posts Count {{ postCount }}</div>
       <div>Full Path: {{ $route.fullPath }}</div>
@@ -96,11 +99,15 @@ onBeforeMount(() => {
     display: flex;
     flex-flow: row;
     align-items: center;
+    justify-content: center;
 
     margin: 2rem 0;
 
-    .nav-link {
-      padding: 2rem 2vw;
+    li {
+      // flex: 0 0 80px;
+      .nav-link {
+        padding: 2rem 2vw;
+      }
     }
   }
 }
