@@ -1,6 +1,9 @@
 <template>
   <div class="layout-container">
-    <header class="header-container ingrid-darling">
+    <header
+      ref="target"
+      class="header-container ingrid-darling"
+    >
       <NuxtLink
         :to="'/'"
         class="link header-link"
@@ -9,7 +12,10 @@
       </NuxtLink>
     </header>
 
-    <nav class="navigation-container istok-web-regular">
+    <nav
+      class="navigation-container istok-web-regular"
+      :class="{ sticking }"
+    >
       <ul>
         <li
           v-for="page in pages"
@@ -50,8 +56,8 @@ const { categories } = storeToRefs(categoryStore)
 const pageStore = usePageStore()
 const { pages } = storeToRefs(pageStore)
 
-const navbarItems = [665, 843] // Blog, Contact
-const visiblePages = computed(() => navbarItems.map(targetPageId => pages.value.find(page => page.id === targetPageId)))
+const target = ref<Element>()
+const sticking = ref<boolean>(false)
 
 onBeforeMount(() => {
   if (categories.value.length === 0) {
@@ -61,6 +67,14 @@ onBeforeMount(() => {
   if (pages.value.length === 0) {
     pageStore.fetchPages()
   }
+})
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    ([entry]) => { sticking.value = !entry.isIntersecting },
+    { threshold: 0 },
+  )
+  observer.observe(target.value as Element)
 })
 </script>
 
@@ -95,18 +109,29 @@ onBeforeMount(() => {
     }
   }
 
-  .navigation-container>ul {
-    display: flex;
-    flex-flow: row;
-    align-items: center;
-    justify-content: center;
+  .navigation-container {
+    width: 100%;
+    --nav-height: 1rem;
+    position: sticky;
+    top: 0;
 
-    margin: 2rem 0;
+    &.sticking {
+      background-color: rgb(250, 240, 230, .8);
+    }
 
-    li {
-      // flex: 0 0 80px;
-      .nav-link {
-        padding: 2rem 2vw;
+    &>ul {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      justify-content: center;
+
+      margin: var(--nav-height) 0;
+
+      li {
+
+        .nav-link {
+          padding: var(--nav-height) 2vw;
+        }
       }
     }
   }
