@@ -1,12 +1,17 @@
 import { defineStore } from 'pinia'
 import type { WP_REST_API_Post, WP_REST_API_Posts } from 'wp-types'
 
-const unset = 0
+import { useNavigationStore } from '@/stores/navigation'
 
 export const usePostStore = defineStore('posts', () => {
+  // Navigation Store
+  const navigationStore = useNavigationStore()
+  const { currentPostId, currentCategoryId } = storeToRefs(navigationStore)
+
+  // STATE
   const posts = ref<WP_REST_API_Posts>([])
-  const currentCategoryId = ref<number>(unset)
-  const currentPostId = ref<number>(unset)
+  // const currentCategoryId = ref<number>(unset)
+  // const currentPostId = ref<number>(unset)
 
   // ACTIONS
   async function fetchPostsByCategory() {
@@ -36,9 +41,9 @@ export const usePostStore = defineStore('posts', () => {
     }
   }
 
-  function setCurrentCategory(categoryId: number) {
-    currentCategoryId.value = categoryId
-  }
+  // function setCurrentCategory(categoryId: number) {
+  //   currentCategoryId.value = categoryId
+  // }
 
   function setCurrentPost(postId: number) {
     currentPostId.value = postId
@@ -67,10 +72,10 @@ export const usePostStore = defineStore('posts', () => {
 
   return {
     posts,
-    currentCategoryId,
+    // currentCategoryId,
     fetchPostsByCategory,
     fetchPostBySlug,
-    setCurrentCategory,
+    // setCurrentCategory,
     setCurrentPost,
     postsIncludeSlug,
     postsByCategory,

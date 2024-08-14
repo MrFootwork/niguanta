@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia'
 import type { WP_REST_API_Categories } from 'wp-types'
 
-const unset = 0
+import { useNavigationStore } from '@/stores/navigation'
 
 export const useCategoryStore = defineStore('categories', () => {
+  // Navigation Store
+  const navigationStore = useNavigationStore()
+  const { currentCategoryId } = storeToRefs(navigationStore)
+
   // STATE
   const categories = ref<WP_REST_API_Categories>([])
-  const currentCategoryId = ref<number>(unset)
 
   // ACTIONS
   async function fetchCategories() {
@@ -15,9 +18,9 @@ export const useCategoryStore = defineStore('categories', () => {
     categories.value.push(...fetchedCategories)
   }
 
-  function setCategoryId(newId: number) {
-    currentCategoryId.value = newId
-  }
+  // function setCategoryId(newId: number) {
+  //   currentCategoryId.value = newId
+  // }
 
   // GETTERS
   function getCategoryIdBySlug(searchSlug: string) {
@@ -31,10 +34,10 @@ export const useCategoryStore = defineStore('categories', () => {
   return {
     // state
     categories,
-    currentCategoryId,
+    // currentCategoryId,
     // actions
     fetchCategories,
-    setCategoryId,
+    // setCategoryId,
     // getters
     getCategoryIdBySlug,
     currentCategory,

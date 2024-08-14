@@ -23,28 +23,25 @@
 </template>
 
 <script setup lang="ts">
-import { usePostStore } from '@/stores/posts'
+import { useNavigationStore } from '@/stores/navigation'
 import { useCategoryStore } from '@/stores/categories'
+import { usePostStore } from '@/stores/posts'
 
 const route = useRoute()
 const categorySlug = route.path.slice(1)
 
+const navigationStore = useNavigationStore()
+
 const categoryStore = useCategoryStore()
 const { categories, currentCategory } = storeToRefs(categoryStore)
-const categoryId = computed(() => categoryStore.getCategoryIdBySlug(categorySlug))
 
 const postStore = usePostStore()
 const { postsByCategory } = storeToRefs(postStore)
 
-// FIXME create navigation store
+const categoryId = computed(() => categoryStore.getCategoryIdBySlug(categorySlug))
 
 onMounted(async () => {
-  if (!categoryId.value) {
-    await categoryStore.fetchCategories()
-  }
-
-  categoryStore.setCategoryId(categoryId.value)
-  postStore.setCurrentCategory(+(categoryId.value))
+  navigationStore.setCategoryId(categoryId.value)
   const postByCategoryCountMatch = postsByCategory.value.length === currentCategory.value?.count
   if (!postByCategoryCountMatch) await postStore.fetchPostsByCategory()
 })
