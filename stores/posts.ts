@@ -10,6 +10,14 @@ export const usePostStore = defineStore('posts', () => {
 
   // ACTIONS
   async function fetchPostsByCategory() {
+    // Delete existing posts in Category before fetching
+    // to avoid duplication
+    for (let index = posts.value.length - 1; index >= 0; index--) {
+      if (posts.value[index].categories?.includes(currentCategoryId.value)) {
+        posts.value.splice(index, 1)
+      }
+    }
+
     // TODO handle errors
     const additionalPosts = await $fetch(`/api/posts?categoryId=${currentCategoryId.value}`) as unknown as WP_REST_API_Posts
 

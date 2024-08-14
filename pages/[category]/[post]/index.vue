@@ -2,10 +2,10 @@
   <div>
     <h5>Post Index</h5>
     <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
-    <!-- <pre>currentPost: {{ currentPost }}</pre> -->
-    <h1 v-html="currentPost?.title.rendered" />
+    <pre>currentPost: {{ currentPost }}</pre>
     <article>
-      <p v-html="currentPost?.content.rendered" />
+      <h1 v-html="currentPost?.title.rendered" />
+      <span v-html="currentPost?.content.rendered" />
     </article>
     <!-- eslint-enable -->
   </div>
@@ -36,6 +36,15 @@ onBeforeMount(() => {
 
 <style scoped lang="scss">
 article {
-  max-width: min(100dvw, 900px);
+  max-width: var(--content-width);
+
+  & :deep(p) {
+    margin: .5rem 0;
+    max-width: 95dvw;
+  }
+
+  & :deep(p):has(img) {
+    // outline: 1px solid red;
+  }
 }
 </style>

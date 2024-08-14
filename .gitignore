@@ -19,6 +19,7 @@ logs
 .fleet
 .idea
 .vscode
+wp-api.json
 
 # Local env files
 .env

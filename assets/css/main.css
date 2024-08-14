@@ -1,3 +1,4 @@
 body {
     --color-brown: brown;
+    --content-width: min(100dvw, 900px);
 }

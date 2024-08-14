@@ -2,7 +2,7 @@
   <div>
     <h5>Category Index</h5>
 
-    <div>{{ categories.length }}</div>
+    <div>Category Count {{ categories.length }}</div>
 
     <div
       v-for="post in postsByCategory"
