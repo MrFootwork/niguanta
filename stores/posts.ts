@@ -22,12 +22,24 @@ export const usePostStore = defineStore('posts', () => {
         posts.value.splice(index, 1)
       }
     }
-
     // TODO handle errors
     const additionalPosts = await $fetch(`/api/posts?categoryId=${currentCategoryId.value}`) as unknown as WP_REST_API_Posts
 
     if (additionalPosts) {
       posts.value.push(...additionalPosts)
+    }
+  }
+
+  async function fetchAllPosts() {
+    // TODO handle errors
+    posts.value = []
+    const { data } = await useFetch(`/api/posts?all=true`)
+    const additionalPosts = data.value
+
+    // FIXME only add posts, if they are not included already
+    if (additionalPosts) {
+      posts.value.push(...additionalPosts as unknown as WP_REST_API_Posts)
+      console.log('🚀 ~ fetchAllPosts ~ posts.value:', posts.value.length)
     }
   }
 
@@ -71,12 +83,16 @@ export const usePostStore = defineStore('posts', () => {
   const postCount = computed(() => posts.value.length)
 
   return {
+    // state
     posts,
     // currentCategoryId,
+    // actions
     fetchPostsByCategory,
     fetchPostBySlug,
+    fetchAllPosts,
     // setCurrentCategory,
     setCurrentPost,
+    // getters
     postsIncludeSlug,
     postsByCategory,
     getPostIdBySlug,

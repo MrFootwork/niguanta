@@ -1,8 +1,12 @@
 <template>
-  <div class="card-container">
+  <NuxtLink
+    :to="`/${post.slug}`"
+    class="card-container"
+  >
     THIS IS CARD
-    <div v-html="post.title.rendered" />
-  </div>
+    <div>Title: <span v-html="post.title.rendered" /></div>
+    <div>Date: {{ new Date(post.date).toLocaleDateString() }}</div>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
@@ -16,5 +20,8 @@ const { post } = defineProps<{
 <style scoped lang="scss">
 .card-container {
   margin: 1rem 0;
+  width: 10rem;
+  text-align: center;
+  outline: 1px solid red;
 }
 </style>

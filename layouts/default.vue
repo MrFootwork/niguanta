@@ -82,6 +82,7 @@ onBeforeMount(async () => {
   }
 
   if (!postStore.postsIncludeSlug(categorySlug as string)) {
+    console.log('default.vue ~ FETCHING POSTS BY CATEGORY')
     await postStore.fetchPostsByCategory()
   }
 })
