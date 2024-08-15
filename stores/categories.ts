@@ -13,9 +13,9 @@ export const useCategoryStore = defineStore('categories', () => {
 
   // ACTIONS
   async function fetchCategories() {
-    // TODO avoid duplicate categories from unintentional fetch
-    const fetchedCategories = await $fetch('/api/categories') as unknown as WP_REST_API_Categories
-    categories.value.push(...fetchedCategories)
+    categories.value = []
+    const fetchedCategories = await $fetch('/api/categories')
+    categories.value.push(...fetchedCategories as unknown as WP_REST_API_Categories)
   }
 
   // function setCategoryId(newId: number) {

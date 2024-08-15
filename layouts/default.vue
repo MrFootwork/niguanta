@@ -35,16 +35,14 @@
       <div>Navigation Page: {{ currentPageId }}</div>
       <div>Navigation Category: {{ currentCategoryId }}</div>
       <div>Navigation Post: {{ currentPostId }}</div>
-    </div>
-
-    <slot class="content-container" />
-
-    <div>
+      <br>
       <div>Posts Count {{ postCount }}</div>
       <div>Full Path: {{ $route.fullPath }}</div>
       <div>Params: {{ $route.params }}</div>
       <div>Page Name: {{ $route.name }}</div>
     </div>
+
+    <slot class="content-container" />
   </div>
 </template>
 
