@@ -18,13 +18,13 @@ export const useCategoryStore = defineStore('categories', () => {
     categories.value.push(...fetchedCategories as unknown as WP_REST_API_Categories)
   }
 
-  // function setCategoryId(newId: number) {
-  //   currentCategoryId.value = newId
-  // }
-
   // GETTERS
   function getCategoryIdBySlug(searchSlug: string) {
     return categories.value.find(category => category.slug === searchSlug)?.id || 0
+  }
+
+  function getCategorySlugById(searchId: number) {
+    return categories.value.find(category => category.id === searchId)?.slug || ''
   }
 
   const currentCategory = computed(() => {
@@ -34,12 +34,11 @@ export const useCategoryStore = defineStore('categories', () => {
   return {
     // state
     categories,
-    // currentCategoryId,
     // actions
     fetchCategories,
-    // setCategoryId,
     // getters
     getCategoryIdBySlug,
+    getCategorySlugById,
     currentCategory,
   }
 })
