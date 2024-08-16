@@ -58,6 +58,7 @@ const postSlug = route.params.post
 console.log('🚀 ~ categorySlug, postSlug:', categorySlug, postSlug)
 
 const tagStore = useTagStore()
+const { tags } = storeToRefs(tagStore)
 
 const postStore = usePostStore()
 const { posts } = storeToRefs(postStore)
@@ -83,18 +84,13 @@ onBeforeMount(async () => {
     navigationStore.setCategoryId(categoryId)
   }
 
-  // if (!postStore.postsIncludeSlug(categorySlug as string)) {
-  //   console.log('default.vue ~ FETCHING POSTS BY CATEGORY')
-  //   await postStore.fetchPostsByCategory()
-  // }
-
   if (posts.value.length === 0) {
-  // fetch fails on first page load without timeout
+    // fetch fails on first page load without timeout
     await setTimeout(() => 0, 0)
     await postStore.fetchAllPosts()
   }
 
-  if (tagStore.tags.values.length === 0) {
+  if (tags.value.length === 0) {
     await tagStore.fetchTags()
   }
 })

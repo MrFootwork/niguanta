@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 const postStore = usePostStore()
+// FIXME filter posts on filter selection
 </script>
 
 <style scoped lang="scss">
