@@ -57,6 +57,8 @@ const categorySlug = route.params.category
 const postSlug = route.params.post
 console.log('🚀 ~ categorySlug, postSlug:', categorySlug, postSlug)
 
+const tagStore = useTagStore()
+
 const postStore = usePostStore()
 const { posts } = storeToRefs(postStore)
 
@@ -90,6 +92,10 @@ onBeforeMount(async () => {
   // fetch fails on first page load without timeout
     await setTimeout(() => 0, 0)
     await postStore.fetchAllPosts()
+  }
+
+  if (tagStore.tags.values.length === 0) {
+    await tagStore.fetchTags()
   }
 })
 

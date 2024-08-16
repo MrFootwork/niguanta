@@ -1,15 +1,14 @@
 <template>
   <!-- FIXME add category slug to uri -->
+  <!-- TODO SEO: add canonical tags in case post have more than one categories -->
   <NuxtLink
-    :to="`/${categoryStore.getCategorySlugById(post.categories[0])}/${post.slug}`"
+    :to="`/${categoryStore.getCategorySlugById(post.categories![0])}/${post.slug}`"
     class="card-container"
   >
     THIS IS CARD
     <div>Title: <span v-html="post.title.rendered" /></div>
     <div>Date: {{ new Date(post.date).toLocaleDateString() }}</div>
-    <!-- TODO SEO: add canonical tags in case post have more than one categories -->
-    <div>Category: {{ post.categories }}</div>
-    <div>Category: {{ categoryStore.getCategorySlugById(post.categories[0]) }}</div>
+    <div v-html="post.excerpt.rendered" />
   </NuxtLink>
 </template>
 
