@@ -17,12 +17,6 @@
 
 <script setup lang="ts">
 const postStore = usePostStore()
-
-onMounted(async () => {
-  // fetch fails on first page load without timeout
-  await setTimeout(() => 0, 0)
-  await postStore.fetchAllPosts()
-})
 </script>
 
 <style scoped lang="scss">
