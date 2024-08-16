@@ -19,24 +19,42 @@ export default defineEventHandler(async (event) => {
   if (all) {
     let totalPostCount = 0
     let totalPageCount = 0
-    const currentPage = 1
+    // WordPress doesn't allow requesting more than 100 posts at once
+    const perPageSize = 100
 
     const firstPage = await $fetch(`${baseUrl}/posts`, {
       method: 'GET',
       query: {
         orderby: 'date',
         order: 'desc',
-        per_page: '20',
+        per_page: perPageSize,
       },
       onResponse({ response }) {
         totalPostCount = +(response.headers.get('x-wp-total') || 0)
         totalPageCount = +(response.headers.get('x-wp-totalpages') || 0)
       },
-
     })
+
     posts.push(...firstPage as unknown as WP_REST_API_Posts)
-    console.log('🚀 ~ defineEventHandler ~ totalPostCount, totalPageCount, currentPage:', totalPostCount, totalPageCount, currentPage)
-    // FIXME paginate through all other pages
+
+    if (totalPostCount <= +perPageSize) return posts
+
+    // Paginate if total post count exceeds maximum of 100
+    for (let currentPage = 2; currentPage <= totalPageCount; currentPage++) {
+      const nextPage = await $fetch(`${baseUrl}/posts`, {
+        method: 'GET',
+        query: {
+          orderby: 'date',
+          order: 'desc',
+          per_page: perPageSize,
+          page: currentPage,
+        },
+      })
+
+      posts.push(...nextPage as unknown as WP_REST_API_Posts)
+    }
+
+    // console.log('🚀 ~ defineEventHandler ~ totalPostCount, totalPageCount:', totalPostCount, totalPageCount)
   }
 
   return posts

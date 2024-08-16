@@ -36,7 +36,7 @@
       <div>Navigation Category: {{ currentCategoryId }}</div>
       <div>Navigation Post: {{ currentPostId }}</div>
       <br>
-      <div>Posts Count {{ postCount }}</div>
+      <div>Posts Count {{ posts.length }}</div>
       <div>Full Path: {{ $route.fullPath }}</div>
       <div>Params: {{ $route.params }}</div>
       <div>Page Name: {{ $route.name }}</div>
@@ -58,7 +58,7 @@ const postSlug = route.params.post
 console.log('🚀 ~ categorySlug, postSlug:', categorySlug, postSlug)
 
 const postStore = usePostStore()
-const postCount = computed(() => postStore.postCount)
+const { posts } = storeToRefs(postStore)
 
 const navigationStore = useNavigationStore()
 const { currentPageId, currentCategoryId, currentPostId } = storeToRefs(navigationStore)
@@ -81,9 +81,15 @@ onBeforeMount(async () => {
     navigationStore.setCategoryId(categoryId)
   }
 
-  if (!postStore.postsIncludeSlug(categorySlug as string)) {
-    console.log('default.vue ~ FETCHING POSTS BY CATEGORY')
-    await postStore.fetchPostsByCategory()
+  // if (!postStore.postsIncludeSlug(categorySlug as string)) {
+  //   console.log('default.vue ~ FETCHING POSTS BY CATEGORY')
+  //   await postStore.fetchPostsByCategory()
+  // }
+
+  if (posts.value.length === 0) {
+  // fetch fails on first page load without timeout
+    await setTimeout(() => 0, 0)
+    await postStore.fetchAllPosts()
   }
 })
 

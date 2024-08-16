@@ -4,14 +4,11 @@ import type { WP_REST_API_Post, WP_REST_API_Posts } from 'wp-types'
 import { useNavigationStore } from '@/stores/navigation'
 
 export const usePostStore = defineStore('posts', () => {
-  // Navigation Store
   const navigationStore = useNavigationStore()
-  const { currentPostId, currentCategoryId } = storeToRefs(navigationStore)
 
   // STATE
   const posts = ref<WP_REST_API_Posts>([])
-  // const currentCategoryId = ref<number>(unset)
-  // const currentPostId = ref<number>(unset)
+  const { currentPostId, currentCategoryId } = storeToRefs(navigationStore)
 
   // ACTIONS
   async function fetchPostsByCategory() {
@@ -33,6 +30,7 @@ export const usePostStore = defineStore('posts', () => {
   async function fetchAllPosts() {
     // TODO handle errors
     posts.value = []
+    // const additionalPosts = await $fetch(`/api/posts?all=true`)
     const { data } = await useFetch(`/api/posts?all=true`)
     const additionalPosts = data.value
 
@@ -46,6 +44,7 @@ export const usePostStore = defineStore('posts', () => {
   async function fetchPostBySlug(slug: string) {
     const data = await $fetch(`/api/posts?slug=${slug}`)
 
+    // FIXME don't add, if store already includes this post
     if (data) {
       const additionalPost = data[0] as unknown as WP_REST_API_Post
       posts.value.push(additionalPost)
@@ -53,10 +52,7 @@ export const usePostStore = defineStore('posts', () => {
     }
   }
 
-  // function setCurrentCategory(categoryId: number) {
-  //   currentCategoryId.value = categoryId
-  // }
-
+  // TODO cleanup, use navigation store instead
   function setCurrentPost(postId: number) {
     currentPostId.value = postId
   }
@@ -85,12 +81,10 @@ export const usePostStore = defineStore('posts', () => {
   return {
     // state
     posts,
-    // currentCategoryId,
     // actions
     fetchPostsByCategory,
     fetchPostBySlug,
     fetchAllPosts,
-    // setCurrentCategory,
     setCurrentPost,
     // getters
     postsIncludeSlug,
