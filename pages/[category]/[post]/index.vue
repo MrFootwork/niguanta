@@ -2,7 +2,7 @@
   <div>
     <h5>Post Index</h5>
     <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
-    <pre>currentPost: {{ currentPost }}</pre>
+    <!-- <pre>currentPost: {{ currentPost }}</pre> -->
     <article>
       <h1 v-html="currentPost?.title.rendered" />
       <span v-html="currentPost?.content.rendered" />

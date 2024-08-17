@@ -9,27 +9,32 @@ export default defineEventHandler(async () => {
   let totalPostCount = 0
   let totalPageCount = 0
 
+  const baseQuery = {
+    per_page: perPageSize,
+    hide_empty: true,
+    orderby: 'count',
+    order: 'desc',
+  }
+
   const firstPage = await $fetch(`${baseUrl}/tags`, {
     method: 'GET',
-    // FIXME only fetch tags with count != 0
-    query: { per_page: perPageSize },
+    query: baseQuery,
     onResponse({ response }) {
       totalPostCount = +(response.headers.get('x-wp-total') || 0)
       totalPageCount = +(response.headers.get('x-wp-totalpages') || 0)
     },
   })
-  console.log('🚀 ~ defineEventHandler ~ totalPostCount, totalPageCount:', totalPostCount, totalPageCount)
 
   tags.push(...firstPage as unknown as WP_REST_API_Tags)
 
-  if (totalPostCount <= +perPageSize) return tags
+  if (totalPostCount <= perPageSize) return tags
 
   // Paginate if total tag count exceeds maximum of 100
   for (let currentPage = 2; currentPage <= totalPageCount; currentPage++) {
     const nextPage = await $fetch(`${baseUrl}/tags`, {
       method: 'GET',
       query: {
-        per_page: perPageSize,
+        ...baseQuery,
         page: currentPage,
       },
     })

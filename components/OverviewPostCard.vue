@@ -1,5 +1,4 @@
 <template>
-  <!-- FIXME add category slug to uri -->
   <!-- TODO SEO: add canonical tags in case post have more than one categories -->
   <NuxtLink
     :to="`/${categoryStore.getCategorySlugById(post.categories![0])}/${post.slug}`"

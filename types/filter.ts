@@ -1,4 +1,4 @@
 export interface FILTER_Item {
-  id: string
+  id: number
   name: string
 }

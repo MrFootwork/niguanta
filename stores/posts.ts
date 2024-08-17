@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
 import type { WP_REST_API_Post, WP_REST_API_Posts } from 'wp-types'
 
-import { useNavigationStore } from '@/stores/navigation'
-
 export const usePostStore = defineStore('posts', () => {
   const navigationStore = useNavigationStore()
 
@@ -68,6 +66,13 @@ export const usePostStore = defineStore('posts', () => {
     return posts.value.find(post => post?.id === currentPostId.value)
   })
 
+  const postsFilteredByTagSelection = computed(() => {
+    if (navigationStore.selectedTags.length === 0) return posts.value
+
+    return posts.value.filter(post =>
+      navigationStore.selectedTags.every(selectedTag => post.tags?.includes(selectedTag)))
+  })
+
   function postsIncludeSlug(searchSlug: string) {
     return posts.value.some(post => post.slug === searchSlug)
   }
@@ -76,8 +81,7 @@ export const usePostStore = defineStore('posts', () => {
     return posts.value.find(post => post.slug === searchSlug)
   }
 
-  const postCount = computed(() => posts.value.length)
-
+  // TODO check if all store properties are necessary
   return {
     // state
     posts,
@@ -89,8 +93,8 @@ export const usePostStore = defineStore('posts', () => {
     // getters
     postsIncludeSlug,
     postsByCategory,
+    postsFilteredByTagSelection,
     getPostIdBySlug,
     currentPost,
-    postCount,
   }
 })

@@ -60,17 +60,17 @@ console.log('🚀 ~ categorySlug, postSlug:', categorySlug, postSlug)
 const tagStore = useTagStore()
 const { tags } = storeToRefs(tagStore)
 
+const pageStore = usePageStore()
+const { pages } = storeToRefs(pageStore)
+
+const categoryStore = useCategoryStore()
+const { categories } = storeToRefs(categoryStore)
+
 const postStore = usePostStore()
 const { posts } = storeToRefs(postStore)
 
 const navigationStore = useNavigationStore()
 const { currentPageId, currentCategoryId, currentPostId } = storeToRefs(navigationStore)
-
-const categoryStore = useCategoryStore()
-const { categories } = storeToRefs(categoryStore)
-
-const pageStore = usePageStore()
-const { pages } = storeToRefs(pageStore)
 
 // Set Navigation
 onBeforeMount(async () => {
@@ -84,6 +84,7 @@ onBeforeMount(async () => {
     navigationStore.setCategoryId(categoryId)
   }
 
+  // BUG coming from post url should refetch all posts and tags
   if (posts.value.length === 0) {
     // fetch fails on first page load without timeout
     await setTimeout(() => 0, 0)
@@ -92,6 +93,7 @@ onBeforeMount(async () => {
 
   if (tags.value.length === 0) {
     await tagStore.fetchTags()
+    navigationStore.initializeFilterSelection(tagStore.tags)
   }
 })
 

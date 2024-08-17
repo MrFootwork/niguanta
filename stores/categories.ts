@@ -27,6 +27,10 @@ export const useCategoryStore = defineStore('categories', () => {
     return categories.value.find(category => category.id === searchId)?.slug || ''
   }
 
+  function getCategoryNameById(searchId: number) {
+    return categories.value.find(category => category.id === searchId)?.name || ''
+  }
+
   const currentCategory = computed(() => {
     return categories.value.find(category => category.id === currentCategoryId.value)
   })
@@ -39,6 +43,7 @@ export const useCategoryStore = defineStore('categories', () => {
     // getters
     getCategoryIdBySlug,
     getCategorySlugById,
+    getCategoryNameById,
     currentCategory,
   }
 })
