@@ -11,6 +11,8 @@ export const useNavigationStore = defineStore('navigation', () => {
   const currentFilterSelection = ref<Record<WP_REST_API_Tag['id'], boolean>>({})
   const selectedTags = ref<WP_REST_API_Tag['id'][]>([])
 
+  const storyTypes = [804348, 546]
+
   // ACTIONS
   function setCategoryId(newId: number) {
     currentCategoryId.value = newId
@@ -60,6 +62,7 @@ export const useNavigationStore = defineStore('navigation', () => {
     currentPostId,
     currentFilterSelection,
     selectedTags,
+    storyTypes,
     // actions
     initializeFilterSelection,
     setCategoryId,

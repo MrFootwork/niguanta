@@ -2,9 +2,10 @@ import { defineStore } from 'pinia'
 import type { WP_REST_API_Post, WP_REST_API_Posts } from 'wp-types'
 
 export const usePostStore = defineStore('posts', () => {
-  const navigationStore = useNavigationStore()
-
   // STATE
+  const navigationStore = useNavigationStore()
+  const categoryStore = useCategoryStore()
+
   const posts = ref<WP_REST_API_Posts>([])
   const { currentPostId, currentCategoryId } = storeToRefs(navigationStore)
 
@@ -69,8 +70,17 @@ export const usePostStore = defineStore('posts', () => {
   const postsFilteredByTagSelection = computed(() => {
     if (navigationStore.selectedTags.length === 0) return posts.value
 
-    return posts.value.filter(post =>
-      navigationStore.selectedTags.every(selectedTag => post.tags?.includes(selectedTag)))
+    return posts.value.filter((post) => {
+      return navigationStore.selectedTags.every((selectedTag) => {
+        if (navigationStore.storyTypes.includes(selectedTag)) {
+          return post.categories?.some((categoryId) => {
+            return categoryStore.getCategoryById(categoryId)?.parent === selectedTag
+          })
+        }
+
+        return post.tags?.includes(selectedTag)
+      })
+    })
   })
 
   function postsIncludeSlug(searchSlug: string) {

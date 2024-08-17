@@ -22,8 +22,6 @@ const { filterItem, disabled } = defineProps<{
 }>()
 
 const navigationStore = useNavigationStore()
-
-// FIXME enable long story and short story filters
 </script>
 
 <style scoped lang="scss">

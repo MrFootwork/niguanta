@@ -5,6 +5,7 @@
     <div>{{ tags.length }}</div>
     <br> -->
     <!-- <pre>{{ tags }}</pre> -->
+    <!-- FIXME disable long/short filters accordingly -->
     <OverviewPostFilterCheckbox
       key="long"
       :filter-item="filterItemLong"
