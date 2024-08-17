@@ -28,9 +28,9 @@ export const usePostStore = defineStore('posts', () => {
   async function fetchAllPosts() {
     // TODO handle errors
     posts.value = []
-    // const additionalPosts = await $fetch(`/api/posts?all=true`)
-    const { data } = await useFetch(`/api/posts?all=true`)
-    const additionalPosts = data.value
+    const additionalPosts = await $fetch(`/api/posts?all=true`)
+    // const { data } = await useFetch(`/api/posts?all=true`)
+    // const additionalPosts = data.value
 
     // FIXME only add posts, if they are not included already
     if (additionalPosts) {

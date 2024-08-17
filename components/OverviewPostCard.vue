@@ -4,10 +4,9 @@
     :to="`/${categoryStore.getCategorySlugById(post.categories![0])}/${post.slug}`"
     class="card-container"
   >
-    THIS IS CARD
-    <div>Title: <span v-html="post.title.rendered" /></div>
-    <div>Date: {{ new Date(post.date).toLocaleDateString() }}</div>
-    <div v-html="post.excerpt.rendered" />
+    <div><span v-html="post.title.rendered" /></div>
+    <div>{{ new Date(post.date).toLocaleDateString() }}</div>
+    <article v-html="post.excerpt.rendered" />
   </NuxtLink>
 </template>
 
@@ -25,8 +24,13 @@ const categoryStore = useCategoryStore()
 <style scoped lang="scss">
 .card-container {
   margin: 1rem 0;
-  width: 10rem;
+  width: 15rem;
   text-align: center;
   outline: 1px solid red;
+  text-decoration: none;
+
+  div {
+    margin: 1rem 0
+  }
 }
 </style>

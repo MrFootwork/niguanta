@@ -35,15 +35,18 @@ const categoryStore = useCategoryStore()
 const idOfLongStories = 804348
 const idOfShortStories = 546
 
-// BUG doesn't work on first page load, when categories are still fetched
-const filterItemLong: FILTER_Item = {
-  id: idOfLongStories,
-  name: categoryStore.getCategoryNameById(idOfLongStories),
-}
-const filterItemShort: FILTER_Item = {
-  id: idOfShortStories,
-  name: categoryStore.getCategoryNameById(idOfShortStories),
-}
+const filterItemLong = computed(() => {
+  return {
+    id: idOfLongStories,
+    name: categoryStore.getCategoryNameById(idOfLongStories),
+  } as FILTER_Item
+})
+const filterItemShort = computed(() => {
+  return {
+    id: idOfShortStories,
+    name: categoryStore.getCategoryNameById(idOfShortStories),
+  } as FILTER_Item
+})
 
 const filterItemsTags = computed(() => {
   return tagStore.tags.map((tag): FILTER_Item => {
