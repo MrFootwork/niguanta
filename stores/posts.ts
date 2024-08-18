@@ -28,15 +28,22 @@ export const usePostStore = defineStore('posts', () => {
 
   async function fetchAllPosts() {
     // TODO handle errors
-    posts.value = []
-    const additionalPosts = await $fetch(`/api/posts?all=true`)
-    // const { data } = await useFetch(`/api/posts?all=true`)
-    // const additionalPosts = data.value
+    const additionalPosts = await $fetch(`/api/posts?all=true`) as unknown as WP_REST_API_Posts
 
-    // FIXME only add posts, if they are not included already
     if (additionalPosts) {
-      posts.value.push(...additionalPosts as unknown as WP_REST_API_Posts)
-      console.log('🚀 ~ fetchAllPosts ~ posts.value:', posts.value.length)
+      const postsToAdd = [...additionalPosts]
+
+      // push all fetched posts, if store is empty
+      if (posts.value.length === 0) return posts.value.push(...additionalPosts)
+
+      // only add posts, which are not in the store already
+      posts.value.forEach((post) => {
+        const indexForDeletion = additionalPosts
+          .findIndex(additionalPost => additionalPost.id === post.id)
+        postsToAdd.splice(indexForDeletion, 1)
+      })
+
+      posts.value.push(...postsToAdd)
     }
   }
 

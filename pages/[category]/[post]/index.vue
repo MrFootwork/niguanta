@@ -20,7 +20,7 @@ const slug = route.path.split('/').at(-1)
 const postStore = usePostStore()
 const { currentPost } = storeToRefs(postStore)
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   const postsIncludeSlug = computed(() => postStore.postsIncludeSlug(slug || ''))
   const slugPostId = postStore.getPostIdBySlug(slug || '')?.id
 
@@ -28,8 +28,9 @@ onBeforeMount(() => {
     postStore.setCurrentPost(slugPostId || 0)
   }
 
+  // faster fetch, when visiting post page on first load
   if (!postsIncludeSlug.value && slug) {
-    postStore.fetchPostBySlug(slug)
+    await postStore.fetchPostBySlug(slug)
   }
 })
 </script>

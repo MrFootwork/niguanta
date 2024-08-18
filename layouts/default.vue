@@ -84,11 +84,10 @@ onBeforeMount(async () => {
     navigationStore.setCategoryId(categoryId)
   }
 
-  // BUG coming from post url should refetch all posts and tags
-  if (posts.value.length === 0) {
+  if (posts.value.length <= 1) {
     // fetch fails on first page load without timeout
     await setTimeout(() => 0, 0)
-    await postStore.fetchAllPosts()
+    postStore.fetchAllPosts()
   }
 
   if (tags.value.length === 0) {
