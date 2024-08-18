@@ -14,7 +14,7 @@
         :to="{
           path: `${currentCategory?.slug}/${post.slug}`,
         }"
-        @click="postStore.setCurrentPost(post.id)"
+        @click="navigationStore.currentPostId = post.id"
         v-html="post?.title?.rendered"
       />
       <!-- eslint-enable -->
@@ -31,17 +31,14 @@ const route = useRoute()
 const categorySlug = route.path.slice(1)
 
 const navigationStore = useNavigationStore()
-
 const categoryStore = useCategoryStore()
-const { categories, currentCategory } = storeToRefs(categoryStore)
-
 const postStore = usePostStore()
+
+const { categories, currentCategory } = storeToRefs(categoryStore)
 const { postsByCategory } = storeToRefs(postStore)
 
-const categoryId = computed(() => categoryStore.getCategoryIdBySlug(categorySlug))
-
 onMounted(async () => {
-  navigationStore.setCategoryId(categoryId.value)
+  navigationStore.currentCategoryId = categoryStore.getCategoryIdBySlug(categorySlug)
   const postByCategoryCountMatch = postsByCategory.value.length === currentCategory.value?.count
   if (!postByCategoryCountMatch) await postStore.fetchPostsByCategory()
 })

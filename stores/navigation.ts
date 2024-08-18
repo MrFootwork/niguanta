@@ -14,10 +14,6 @@ export const useNavigationStore = defineStore('navigation', () => {
   const storyTypes = [804348, 546]
 
   // ACTIONS
-  function setCategoryId(newId: number) {
-    currentCategoryId.value = newId
-  }
-
   // TODO make long/short more dynamic
   function initializeFilterSelection(tags: WP_REST_API_Tags) {
     const extraFilterItemId = {
@@ -36,8 +32,6 @@ export const useNavigationStore = defineStore('navigation', () => {
   }
 
   function toggleTagFilter(tagId: WP_REST_API_Tag['id']) {
-    console.log('🚀 ~ toggleTagFilter ~ tagId:', tagId)
-
     // update all tags collection
     currentFilterSelection.value[tagId] = !currentFilterSelection.value[tagId]
 
@@ -65,7 +59,6 @@ export const useNavigationStore = defineStore('navigation', () => {
     storyTypes,
     // actions
     initializeFilterSelection,
-    setCategoryId,
     toggleTagFilter,
     // getters
     tagsAvailableBySelectedPosts,

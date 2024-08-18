@@ -11,26 +11,22 @@ export const usePostStore = defineStore('posts', () => {
 
   // ACTIONS
   // TODO handle errors when fetching
-  async function fetchPostsByCategory() {
-    const additionalPosts = await $fetch(`/api/posts?categoryId=${currentCategoryId.value}`) as unknown as WP_REST_API_Posts
-    _addPostsToStore(additionalPosts)
-  }
-
   async function fetchAllPosts() {
     const additionalPosts = await $fetch(`/api/posts?all=true`) as unknown as WP_REST_API_Posts
     _addPostsToStore(additionalPosts)
+  }
+
+  async function fetchPostsByCategory() {
+    const additionalPosts = await $fetch(`/api/posts?categoryId=${currentCategoryId.value}`) as unknown as WP_REST_API_Posts
+    _addPostsToStore(additionalPosts)
+    navigationStore.currentPostId = currentCategoryId.value
   }
 
   async function fetchPostBySlug(slug: string) {
     const data = await $fetch(`/api/posts?slug=${slug}`) as unknown as WP_REST_API_Posts
 
     _addPostsToStore(data)
-    setCurrentPost(data[0].id)
-  }
-
-  // TODO cleanup, use navigation store instead
-  function setCurrentPost(postId: number) {
-    currentPostId.value = postId
+    navigationStore.currentPostId = data[0].id
   }
 
   function _addPostsToStore(additionalPosts: WP_REST_API_Posts) {
@@ -92,7 +88,6 @@ export const usePostStore = defineStore('posts', () => {
     fetchPostsByCategory,
     fetchPostBySlug,
     fetchAllPosts,
-    setCurrentPost,
     // getters
     postsIncludeSlug,
     postsByCategory,

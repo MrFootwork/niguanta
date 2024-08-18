@@ -15,22 +15,27 @@
 import { usePostStore } from '@/stores/posts'
 
 const route = useRoute()
-const slug = route.path.split('/').at(-1)
+const postSlug = route.path.split('/').at(-1)
+const categorySlug = route.path.split('/').at(-2)
 
+const categoryStore = useCategoryStore()
 const postStore = usePostStore()
+const navigationStore = useNavigationStore()
+
 const { currentPost } = storeToRefs(postStore)
 
 onBeforeMount(async () => {
-  const postsIncludeSlug = computed(() => postStore.postsIncludeSlug(slug || ''))
-  const slugPostId = postStore.getPostIdBySlug(slug || '')?.id
+  const postsIncludeSlug = computed(() => postStore.postsIncludeSlug(postSlug || ''))
+  const slugPostId = postStore.getPostIdBySlug(postSlug || '')?.id
 
   if (postsIncludeSlug.value) {
-    postStore.setCurrentPost(slugPostId || 0)
+    navigationStore.currentPostId = slugPostId || 0
+    navigationStore.currentCategoryId = categoryStore.getCategoryIdBySlug(categorySlug || '')
   }
 
   // faster fetch, when visiting post page on first load
-  if (!postsIncludeSlug.value && slug) {
-    await postStore.fetchPostBySlug(slug)
+  if (!postsIncludeSlug.value && postSlug) {
+    await postStore.fetchPostBySlug(postSlug)
   }
 })
 </script>

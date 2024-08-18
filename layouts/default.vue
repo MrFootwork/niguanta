@@ -81,7 +81,7 @@ onBeforeMount(async () => {
   if (categories.value.length === 0) {
     await categoryStore.fetchCategories()
     const categoryId = categoryStore.getCategoryIdBySlug(categorySlug as string)
-    navigationStore.setCategoryId(categoryId)
+    navigationStore.currentCategoryId = categoryId
   }
 
   if (posts.value.length <= 1) {
