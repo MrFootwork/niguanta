@@ -5,7 +5,7 @@ export default defineEventHandler(async () => {
   const accessToken = useRuntimeConfig().wordpressAccessToken
 
   try {
-    const media = await $fetch(`${baseUrl}/media?per_page=5`, {
+    const media = await $fetch(`${baseUrl}/media?parent`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

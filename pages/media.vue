@@ -2,7 +2,21 @@
   <div>
     <h5>MEDIA</h5>
     <pre>media count {{ media?.length }}</pre>
-    <pre>{{ media }}</pre>
+
+    <div class="media-container">
+      <div
+        v-for="image in media"
+        :key="image.id"
+        class="image-container"
+      >
+        <img
+          :src="image.guid.rendered"
+          :alt="image.alt_text"
+        >
+      </div>
+    </div>
+
+    <pre>{{ media[0] }}</pre>
   </div>
 </template>
 
@@ -17,8 +31,22 @@ if (error.value) {
 }
 </script>
 
-<style scoped>
-.card {
-    margin: 1rem 0;
+<style scoped lang="scss">
+.media-container {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+
+  .image-container {
+    width: 300px;
+    height: 200px;
+    overflow: hidden;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
 }
 </style>
