@@ -4,7 +4,6 @@ import type { WP_REST_API_Tags } from 'wp-types'
 export const useTagStore = defineStore('tags', () => {
   // STATE
   const postStore = usePostStore()
-  const categoryStore = useCategoryStore()
   const tags = ref<WP_REST_API_Tags>([])
 
   // ACTIONS
