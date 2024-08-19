@@ -1,4 +1,5 @@
 import type { WP_REST_API_Tag, WP_REST_API_Tags } from 'wp-types'
+import IDs from '../data/IDs.json'
 
 const unset = 0
 
@@ -11,24 +12,16 @@ export const useNavigationStore = defineStore('navigation', () => {
   const currentFilterSelection = ref<Record<WP_REST_API_Tag['id'], boolean>>({})
   const selectedTags = ref<WP_REST_API_Tag['id'][]>([])
 
-  const storyTypes = [804348, 546]
+  const storyTypes = [IDs.longStory, IDs.shortStory]
 
   // ACTIONS
-  // TODO make long/short more dynamic
   function initializeFilterSelection(tags: WP_REST_API_Tags) {
-    const extraFilterItemId = {
-      long: 804348,
-      short: 546,
-    }
-
-    currentFilterSelection.value[extraFilterItemId.long] = false
-    currentFilterSelection.value[extraFilterItemId.short] = false
+    currentFilterSelection.value[IDs.longStory] = false
+    currentFilterSelection.value[IDs.shortStory] = false
 
     tags.forEach((tag) => {
       currentFilterSelection.value[tag.id] = false
     })
-
-    console.log('🚀 ~ useNavigationStore ~ currentFilterSelection count:', Object.keys(currentFilterSelection.value).length)
   }
 
   function toggleTagFilter(tagId: WP_REST_API_Tag['id']) {

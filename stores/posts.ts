@@ -6,8 +6,9 @@ export const usePostStore = defineStore('posts', () => {
   const navigationStore = useNavigationStore()
   const categoryStore = useCategoryStore()
 
-  const posts = ref<WP_REST_API_Posts>([])
   const { currentPostId, currentCategoryId } = storeToRefs(navigationStore)
+
+  const posts = ref<WP_REST_API_Posts>([])
 
   // ACTIONS
   // TODO handle errors when fetching
@@ -80,7 +81,6 @@ export const usePostStore = defineStore('posts', () => {
     return posts.value.find(post => post.slug === searchSlug)
   }
 
-  // TODO check if all store properties are necessary
   return {
     // state
     posts,
