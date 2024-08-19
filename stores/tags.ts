@@ -27,20 +27,6 @@ export const useTagStore = defineStore('tags', () => {
     return tags
   })
 
-  const categoryParentOfSelectedPosts = computed(() => {
-    const parents: number[] = []
-
-    postStore.postsFilteredByTagSelection.forEach((post) => {
-      post.categories?.forEach((categoryId) => {
-        const categoryParent = categoryStore.getCategoryById(categoryId)?.parent || 0
-        if (!parents.includes(categoryParent)) parents.push(categoryParent)
-      })
-    })
-    console.log('🚀 ~ categoriesOfSelectedPosts ~ categories:', parents)
-
-    return parents
-  })
-
   return {
     // state
     tags,
@@ -48,6 +34,5 @@ export const useTagStore = defineStore('tags', () => {
     fetchTags,
     // getters
     tagsOfSelectedPosts,
-    categoryParentOfSelectedPosts,
   }
 })

@@ -9,20 +9,20 @@
       key="long"
       :filter-item="filterItemLong"
       class="filter-item"
-      :disabled="!isIncludedInSelectedTags(IDs.longStory)"
+      :disabled="!isIncludedInFilteredPosts(IDs.longStory)"
     />
     <OverviewPostFilterCheckbox
       key="short"
       :filter-item="filterItemShort"
       class="filter-item"
-      :disabled="!isIncludedInSelectedTags(IDs.shortStory)"
+      :disabled="!isIncludedInFilteredPosts(IDs.shortStory)"
     />
     <OverviewPostFilterCheckbox
       v-for="filterItem in filterItemsTags"
       :key="filterItem.id"
       class="filter-item"
       :filter-item="filterItem"
-      :disabled="!isIncludedInPosts(filterItem.id)"
+      :disabled="!isIncludedInFilteredPosts(filterItem.id)"
     />
   </div>
 </template>
@@ -31,6 +31,7 @@
 import IDs from '@/data/IDs.json'
 import type { FILTER_Item } from '@/types/filter.js'
 
+const navigationStore = useNavigationStore()
 const tagStore = useTagStore()
 const categoryStore = useCategoryStore()
 
@@ -56,12 +57,14 @@ const filterItemsTags = computed(() => {
   })
 })
 
-const isIncludedInPosts = computed(() => {
-  return (searchId: number) => tagStore.tagsOfSelectedPosts.includes(searchId)
-})
+const isIncludedInFilteredPosts = computed(() => {
+  return (searchId: number) => {
+    if (navigationStore.storyTypes.includes(searchId)) {
+      return categoryStore.categoryParentOfSelectedPosts.includes(searchId)
+    }
 
-const isIncludedInSelectedTags = computed(() => {
-  return (searchId: number) => tagStore.categoryParentOfSelectedPosts.includes(searchId)
+    return tagStore.tagsOfSelectedPosts.includes(searchId)
+  }
 })
 </script>
 

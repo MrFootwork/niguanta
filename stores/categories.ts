@@ -6,6 +6,9 @@ import { useNavigationStore } from '@/stores/navigation'
 export const useCategoryStore = defineStore('categories', () => {
   // Navigation Store
   const navigationStore = useNavigationStore()
+  const postStore = usePostStore()
+  const categoryStore = useCategoryStore()
+
   const { currentCategoryId } = storeToRefs(navigationStore)
 
   // STATE
@@ -39,6 +42,19 @@ export const useCategoryStore = defineStore('categories', () => {
     return categories.value.find(category => category.id === currentCategoryId.value)
   })
 
+  const categoryParentOfSelectedPosts = computed(() => {
+    const parents: number[] = []
+
+    postStore.postsFilteredByTagSelection.forEach((post) => {
+      post.categories?.forEach((categoryId) => {
+        const categoryParent = categoryStore.getCategoryById(categoryId)?.parent || 0
+        if (!parents.includes(categoryParent)) parents.push(categoryParent)
+      })
+    })
+
+    return parents
+  })
+
   return {
     // state
     categories,
@@ -50,5 +66,6 @@ export const useCategoryStore = defineStore('categories', () => {
     getCategoryNameById,
     getCategoryById,
     currentCategory,
+    categoryParentOfSelectedPosts,
   }
 })
