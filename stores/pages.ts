@@ -10,9 +10,9 @@ export const usePageStore = defineStore('pages', () => {
 
   // ACTIONS
   async function fetchPages() {
-    // TODO avoid duplicate categories from unintentional fetch
-    const fetchedPages = await $fetch('/api/pages') as unknown as WP_REST_API_Pages
-    pages.value.push(...fetchedPages)
+    pages.value = []
+    const fetchedPages = await $fetch('/api/pages')
+    pages.value.push(...fetchedPages as unknown as WP_REST_API_Pages)
   }
 
   function setPageId(newId: number) {

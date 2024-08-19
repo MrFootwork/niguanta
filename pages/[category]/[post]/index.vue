@@ -2,7 +2,7 @@
   <div>
     <h5>Post Index</h5>
     <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
-    <pre>currentPost: {{ currentPost }}</pre>
+    <!-- <pre>currentPost: {{ currentPost }}</pre> -->
     <article>
       <h1 v-html="currentPost?.title.rendered" />
       <span v-html="currentPost?.content.rendered" />
@@ -15,21 +15,27 @@
 import { usePostStore } from '@/stores/posts'
 
 const route = useRoute()
-const slug = route.path.split('/').at(-1)
+const postSlug = route.path.split('/').at(-1)
+const categorySlug = route.path.split('/').at(-2)
 
+const categoryStore = useCategoryStore()
 const postStore = usePostStore()
+const navigationStore = useNavigationStore()
+
 const { currentPost } = storeToRefs(postStore)
 
-onBeforeMount(() => {
-  const postsIncludeSlug = computed(() => postStore.postsIncludeSlug(slug || ''))
-  const slugPostId = postStore.getPostIdBySlug(slug || '')?.id
+onBeforeMount(async () => {
+  const postsIncludeSlug = computed(() => postStore.postsIncludeSlug(postSlug || ''))
+  const slugPostId = postStore.getPostIdBySlug(postSlug || '')?.id
 
   if (postsIncludeSlug.value) {
-    postStore.setCurrentPost(slugPostId || 0)
+    navigationStore.currentPostId = slugPostId || 0
+    navigationStore.currentCategoryId = categoryStore.getCategoryIdBySlug(categorySlug || '')
   }
 
-  if (!postsIncludeSlug.value && slug) {
-    postStore.fetchPostBySlug(slug)
+  // faster fetch, when visiting post page on first load
+  if (!postsIncludeSlug.value && postSlug) {
+    await postStore.fetchPostBySlug(postSlug)
   }
 })
 </script>

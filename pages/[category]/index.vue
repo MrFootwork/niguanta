@@ -14,7 +14,7 @@
         :to="{
           path: `${currentCategory?.slug}/${post.slug}`,
         }"
-        @click="postStore.setCurrentPost(post.id)"
+        @click="navigationStore.currentPostId = post.id"
         v-html="post?.title?.rendered"
       />
       <!-- eslint-enable -->
@@ -23,28 +23,22 @@
 </template>
 
 <script setup lang="ts">
-import { usePostStore } from '@/stores/posts'
+import { useNavigationStore } from '@/stores/navigation'
 import { useCategoryStore } from '@/stores/categories'
+import { usePostStore } from '@/stores/posts'
 
 const route = useRoute()
 const categorySlug = route.path.slice(1)
 
+const navigationStore = useNavigationStore()
 const categoryStore = useCategoryStore()
-const { categories, currentCategory } = storeToRefs(categoryStore)
-const categoryId = computed(() => categoryStore.getCategoryIdBySlug(categorySlug))
-
 const postStore = usePostStore()
+
+const { categories, currentCategory } = storeToRefs(categoryStore)
 const { postsByCategory } = storeToRefs(postStore)
 
-// FIXME create navigation store
-
 onMounted(async () => {
-  if (!categoryId.value) {
-    await categoryStore.fetchCategories()
-  }
-
-  categoryStore.setCategoryId(categoryId.value)
-  postStore.setCurrentCategory(+(categoryId.value))
+  navigationStore.currentCategoryId = categoryStore.getCategoryIdBySlug(categorySlug)
   const postByCategoryCountMatch = postsByCategory.value.length === currentCategory.value?.count
   if (!postByCategoryCountMatch) await postStore.fetchPostsByCategory()
 })

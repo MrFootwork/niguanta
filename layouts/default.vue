@@ -31,43 +31,74 @@
       </ul>
     </nav>
 
-    <slot class="content-container" />
-
-    <div>
-      <div>Posts Count {{ postCount }}</div>
+    <div style="position: fixed; bottom: 0; right: 0; background-color: rgba(160, 230, 230, 0.5)">
+      <div>Navigation Page: {{ currentPageId }}</div>
+      <div>Navigation Category: {{ currentCategoryId }}</div>
+      <div>Navigation Post: {{ currentPostId }}</div>
+      <br>
+      <div>Posts Count {{ posts.length }}</div>
       <div>Full Path: {{ $route.fullPath }}</div>
       <div>Params: {{ $route.params }}</div>
       <div>Page Name: {{ $route.name }}</div>
     </div>
+
+    <slot class="content-container" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { usePostStore } from '@/stores/posts'
-import { useCategoryStore } from '@/stores/categories'
+import { useNavigationStore } from '@/stores/navigation'
 import { usePageStore } from '@/stores/pages'
+import { useCategoryStore } from '@/stores/categories'
+import { usePostStore } from '@/stores/posts'
 
-const postsStore = usePostStore()
-const postCount = computed(() => postsStore.postCount)
+const route = useRoute()
+const categorySlug = route.params.category
+const postSlug = route.params.post
+console.log('🚀 ~ categorySlug, postSlug:', categorySlug, postSlug)
 
-const categoryStore = useCategoryStore()
-const { categories } = storeToRefs(categoryStore)
+const tagStore = useTagStore()
+const { tags } = storeToRefs(tagStore)
 
 const pageStore = usePageStore()
 const { pages } = storeToRefs(pageStore)
 
-const target = ref<Element>()
-const sticking = ref<boolean>(false)
+const categoryStore = useCategoryStore()
+const { categories } = storeToRefs(categoryStore)
 
-onBeforeMount(() => {
-  if (categories.value.length === 0) {
-    categoryStore.fetchCategories()
+const postStore = usePostStore()
+const { posts } = storeToRefs(postStore)
+
+const navigationStore = useNavigationStore()
+const { currentPageId, currentCategoryId, currentPostId } = storeToRefs(navigationStore)
+
+// Set Navigation
+onBeforeMount(async () => {
+  if (pages.value.length === 0) {
+    await pageStore.fetchPages()
   }
 
-  if (pages.value.length === 0) {
-    pageStore.fetchPages()
+  if (categories.value.length === 0) {
+    await categoryStore.fetchCategories()
+    const categoryId = categoryStore.getCategoryIdBySlug(categorySlug as string)
+    navigationStore.currentCategoryId = categoryId
+  }
+
+  if (posts.value.length <= 1) {
+    // fetch fails on first page load without timeout
+    await setTimeout(() => 0, 0)
+    postStore.fetchAllPosts()
+  }
+
+  if (tags.value.length === 0) {
+    await tagStore.fetchTags()
+    navigationStore.initializeFilterSelection(tagStore.tags)
   }
 })
+
+// Navbar sticky behavior
+const target = ref<Element>()
+const sticking = ref<boolean>(false)
 
 onMounted(() => {
   const observer = new IntersectionObserver(
