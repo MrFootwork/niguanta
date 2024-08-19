@@ -5,16 +5,17 @@
     <div>{{ tags.length }}</div>
     <br> -->
     <!-- <pre>{{ tags }}</pre> -->
-    <!-- FIXME disable long/short filters accordingly -->
     <OverviewPostFilterCheckbox
       key="long"
       :filter-item="filterItemLong"
       class="filter-item"
+      :disabled="!isIncludedInSelectedTags(IDs.longStory)"
     />
     <OverviewPostFilterCheckbox
       key="short"
       :filter-item="filterItemShort"
       class="filter-item"
+      :disabled="!isIncludedInSelectedTags(IDs.shortStory)"
     />
     <OverviewPostFilterCheckbox
       v-for="filterItem in filterItemsTags"
@@ -27,25 +28,22 @@
 </template>
 
 <script setup lang="ts">
+import IDs from '@/data/IDs.json'
 import type { FILTER_Item } from '@/types/filter.js'
 
 const tagStore = useTagStore()
-
 const categoryStore = useCategoryStore()
-
-const idOfLongStories = 804348
-const idOfShortStories = 546
 
 const filterItemLong = computed(() => {
   return {
-    id: idOfLongStories,
-    name: categoryStore.getCategoryNameById(idOfLongStories),
+    id: IDs.longStory,
+    name: categoryStore.getCategoryNameById(IDs.longStory),
   } as FILTER_Item
 })
 const filterItemShort = computed(() => {
   return {
-    id: idOfShortStories,
-    name: categoryStore.getCategoryNameById(idOfShortStories),
+    id: IDs.shortStory,
+    name: categoryStore.getCategoryNameById(IDs.shortStory),
   } as FILTER_Item
 })
 
@@ -60,6 +58,10 @@ const filterItemsTags = computed(() => {
 
 const isIncludedInPosts = computed(() => {
   return (searchId: number) => tagStore.tagsOfSelectedPosts.includes(searchId)
+})
+
+const isIncludedInSelectedTags = computed(() => {
+  return (searchId: number) => tagStore.categoryParentOfSelectedPosts.includes(searchId)
 })
 </script>
 
