@@ -1,7 +1,6 @@
 <template>
   <div class="page-container">
     <OverviewPostFilter />
-    <!-- FIXME Make flexbox or grid -->
     <div class="post-container">
       <OverviewPostCard
         v-for="post in postStore.posts"
@@ -26,7 +25,6 @@ function isSelectedByTagFilter(postId: number): boolean {
 .page-container {
 
   .post-container {
-    // FIXME try grid for more consistent post layout with different counts
     display: flex;
     flex-wrap: wrap;
     gap: .5rem;
