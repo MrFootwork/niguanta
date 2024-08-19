@@ -4,7 +4,6 @@ import type { WP_REST_API_Posts } from 'wp-types'
 export default defineEventHandler(async (event) => {
   const baseUrl = useRuntimeConfig().public.wpRestApiBaseUrl
   const { categoryId, slug, all } = getQuery(event)
-  console.log('🚀 ~ /api/posts ~ categoryId, slug, all:', categoryId, slug, all)
 
   let posts = [] as WP_REST_API_Posts
 
@@ -53,8 +52,6 @@ export default defineEventHandler(async (event) => {
 
       posts.push(...nextPage as unknown as WP_REST_API_Posts)
     }
-
-    // console.log('🚀 ~ defineEventHandler ~ totalPostCount, totalPageCount:', totalPostCount, totalPageCount)
   }
 
   return posts

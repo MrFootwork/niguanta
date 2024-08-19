@@ -31,10 +31,9 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     // The private keys which are only available within server-side
-    apiSecret: '123',
+    wordpressAccessToken: process.env.NUXT_WP_REST_API_ACCESS_TOKEN,
     // Keys within public, will be also exposed to the client-side
     public: {
-      apiBase: '/api',
       wpRestApiBaseUrl: process.env.NUXT_WP_REST_API_BASE_URL,
     },
   },
