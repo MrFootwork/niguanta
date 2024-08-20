@@ -1,11 +1,11 @@
 <template>
   <div>
     <h5>MEDIA</h5>
-    <pre>media count {{ media?.length }}</pre>
+    <pre>media count {{ mediaStore.media?.length }}</pre>
 
     <div class="media-container">
       <div
-        v-for="image in media"
+        v-for="image in mediaStore.media"
         :key="image.id"
         class="image-container"
       >
@@ -13,22 +13,16 @@
           :src="image.guid.rendered"
           :alt="image.alt_text"
         >
+        <label for="">{{ image.id }}</label>
       </div>
     </div>
 
-    <pre>{{ media[0] }}</pre>
+    <pre>{{ mediaStore.media }}</pre>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { WP_REST_API_Attachments } from 'wp-types'
-
-const { data, error } = await useFetch(`/api/media`)
-const media = data as unknown as WP_REST_API_Attachments
-
-if (error.value) {
-  console.error('Error fetching media:', error.value)
-}
+const mediaStore = useMediaStore()
 </script>
 
 <style scoped lang="scss">
@@ -41,11 +35,20 @@ if (error.value) {
     width: 300px;
     height: 200px;
     overflow: hidden;
+    position: relative;
 
     & img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    & label {
+      position: relative;
+      top: -200px;
+      left: 0;
+      color: white;
+      background-color: rgb(34, 24, 34, .5);
     }
   }
 }
