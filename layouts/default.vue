@@ -152,6 +152,7 @@ onMounted(() => {
     --nav-height: 1rem;
     position: sticky;
     top: 0;
+    z-index: 1000;
 
     &.sticking {
       background-color: rgb(250, 240, 230, .8);

@@ -31,7 +31,6 @@ function isSelectedByTagFilter(postId: number): boolean {
 
     .overviewPostCard {
       display: none;
-      padding: .5rem;
 
       &.filtered {
         display: block;

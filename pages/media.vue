@@ -5,7 +5,7 @@
 
     <div class="media-container">
       <div
-        v-for="image in mediaStore.media"
+        v-for="image in mediaStore.media.slice(100, 110)"
         :key="image.id"
         class="image-container"
       >
