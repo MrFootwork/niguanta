@@ -32,7 +32,7 @@
       <!-- <div>{{ endpointItem.content.rendered }}</div> -->
     </div>
 
-    <pre>{{ endpoints[4] }}</pre>
+    <pre>{{ endpoints[0] }}</pre>
   </div>
 </template>
 

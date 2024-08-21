@@ -2,9 +2,21 @@
   <div>
     <h5>Post Index</h5>
     <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
-    <!-- <pre>currentPost: {{ currentPost }}</pre> -->
+    <!-- <pre>currentPost: {{ currentMedia }}</pre> -->
+    <!-- FIXME add hero with title and image -->
+    <div class="hero-container">
+      <img
+        :src="currentMedia?.media_details.sizes?.large?.source_url"
+        :alt="currentMedia?.alt_text"
+        class="hero-image"
+      >
+      <h1
+        class="hero-title"
+        v-html="currentPost?.title.rendered"
+      />
+    </div>
+
     <article>
-      <h1 v-html="currentPost?.title.rendered" />
       <span v-html="currentPost?.content.rendered" />
     </article>
     <!-- eslint-enable -->
@@ -18,11 +30,16 @@ const route = useRoute()
 const postSlug = route.path.split('/').at(-1)
 const categorySlug = route.path.split('/').at(-2)
 
+const navigationStore = useNavigationStore()
 const categoryStore = useCategoryStore()
 const postStore = usePostStore()
-const navigationStore = useNavigationStore()
+const mediaStore = useMediaStore()
 
 const { currentPost } = storeToRefs(postStore)
+
+const currentMedia = computed(() => {
+  return mediaStore.media.find(media => media.id === currentPost.value?.featured_media)
+})
 
 onBeforeMount(async () => {
   const postsIncludeSlug = computed(() => postStore.postsIncludeSlug(postSlug || ''))
@@ -41,6 +58,32 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped lang="scss">
+.hero-container {
+  width: 100%;
+  height: 25rem;
+  overflow: hidden;
+  position: relative;
+
+  margin-bottom: 1rem;
+
+  img.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+  }
+
+  .hero-title {
+    position: absolute;
+    bottom: 0;
+    margin: 1rem;
+
+    color: white;
+    font-size: 5rem;
+    text-shadow: 1px 1px 2px black, -1px -1px 4px steelblue;
+  }
+}
+
 article {
   max-width: var(--content-width);
 

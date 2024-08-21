@@ -69,17 +69,20 @@ const { categories } = storeToRefs(categoryStore)
 const postStore = usePostStore()
 const { posts } = storeToRefs(postStore)
 
+const mediaStore = useMediaStore()
+const { media } = storeToRefs(mediaStore)
+
 const navigationStore = useNavigationStore()
 const { currentPageId, currentCategoryId, currentPostId } = storeToRefs(navigationStore)
 
 // Set Navigation
 onBeforeMount(async () => {
   if (pages.value.length === 0) {
-    await pageStore.fetchPages()
+    pageStore.fetchPages()
   }
 
   if (categories.value.length === 0) {
-    await categoryStore.fetchCategories()
+    categoryStore.fetchCategories()
     const categoryId = categoryStore.getCategoryIdBySlug(categorySlug as string)
     navigationStore.currentCategoryId = categoryId
   }
@@ -91,8 +94,12 @@ onBeforeMount(async () => {
   }
 
   if (tags.value.length === 0) {
-    await tagStore.fetchTags()
+    tagStore.fetchTags()
     navigationStore.initializeFilterSelection(tagStore.tags)
+  }
+
+  if (media.value.length === 0) {
+    mediaStore.fetchMedia()
   }
 })
 
@@ -145,6 +152,7 @@ onMounted(() => {
     --nav-height: 1rem;
     position: sticky;
     top: 0;
+    z-index: 1000;
 
     &.sticking {
       background-color: rgb(250, 240, 230, .8);
