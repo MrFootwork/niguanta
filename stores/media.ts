@@ -5,10 +5,23 @@ export const useMediaStore = defineStore('media', () => {
   const media = ref<WP_REST_API_Attachments>([])
 
   // ACTIONS
-  async function fetchMedia() {
+  async function fetchMedia(listOfMediaIDs: number[]) {
     media.value = []
-    const mediaFetched = await $fetch('/api/media')
-    media.value.push(...mediaFetched as unknown as WP_REST_API_Attachments)
+
+    const { data, error, status } = await useFetch('/api/media', {
+      method: 'PUT',
+      body: listOfMediaIDs,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (status.value === 'success') {
+      media.value.push(...data.value as unknown as WP_REST_API_Attachments)
+    }
+    else {
+      console.error('fetch was not successful ', error.value)
+    }
   }
 
   // GETTERS

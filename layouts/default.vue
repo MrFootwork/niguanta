@@ -54,8 +54,8 @@ import { usePostStore } from '@/stores/posts'
 
 const route = useRoute()
 const categorySlug = route.params.category
-const postSlug = route.params.post
-console.log('🚀 ~ categorySlug, postSlug:', categorySlug, postSlug)
+// const postSlug = route.params.post
+// console.log('🚀 ~ categorySlug, postSlug:', categorySlug, postSlug)
 
 const tagStore = useTagStore()
 const { tags } = storeToRefs(tagStore)
@@ -87,19 +87,20 @@ onBeforeMount(async () => {
     navigationStore.currentCategoryId = categoryId
   }
 
-  if (posts.value.length <= 1) {
-    // fetch fails on first page load without timeout
-    await setTimeout(() => 0, 0)
-    postStore.fetchAllPosts()
-  }
-
   if (tags.value.length === 0) {
     tagStore.fetchTags()
     navigationStore.initializeFilterSelection(tagStore.tags)
   }
 
+  if (posts.value.length <= 1) {
+    // fetch fails on first page load without timeout
+    await setTimeout(() => 0, 0)
+    await postStore.fetchAllPosts()
+  }
+
   if (media.value.length === 0) {
-    mediaStore.fetchMedia()
+    const mediaList = postStore.mediaOfPosts
+    mediaStore.fetchMedia(mediaList)
   }
 })
 

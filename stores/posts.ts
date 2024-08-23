@@ -74,7 +74,6 @@ export const usePostStore = defineStore('posts', () => {
   })
 
   const mediaOfPosts = computed(() => {
-    console.log('🚀 ~ mediaOfPosts ~ post images:', posts.value.map(post => post.featured_media || 0))
     return posts.value.map(post => post.featured_media || 0)
   })
 

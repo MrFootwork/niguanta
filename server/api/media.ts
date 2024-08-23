@@ -1,14 +1,11 @@
-import { storeToRefs } from 'pinia'
+// import { storeToRefs } from 'pinia'
 import type { WP_REST_API_Attachments } from 'wp-types'
-import { usePostStore } from '~/stores/posts'
+// import { usePostStore } from '~/stores/posts'
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
   const baseUrl = useRuntimeConfig().public.wpRestApiBaseUrl
   const accessToken = useRuntimeConfig().wordpressAccessToken
-
-  const postStore = usePostStore()
-  const { mediaOfPosts } = await storeToRefs(postStore)
-  console.log('🚀 ~ defineEventHandler ~ mediaOfPosts:', mediaOfPosts.value)
+  const mediaIDs: number[] = await readBody(event)
 
   const media = [] as WP_REST_API_Attachments
 
@@ -20,11 +17,10 @@ export default defineEventHandler(async () => {
 
     const baseQuery = {
       per_page: perPageSize,
-      include: mediaOfPosts.value,
+      // format number[] as comma separated string of numbers
+      include: mediaIDs.join(','),
     }
     const authorizationHeader = { Authorization: `Bearer ${accessToken}` }
-
-    console.log('🚀 ~ api/media ~ mediaOfPosts.value:', mediaOfPosts.value)
 
     const firstPage = await $fetch(`${baseUrl}/media`, {
       method: 'GET',
