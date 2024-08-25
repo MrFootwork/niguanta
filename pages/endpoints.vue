@@ -15,6 +15,13 @@
       name="query"
       @keyup.enter="inspectEndpoint"
     >
+    <input
+      id="displayIndex"
+      v-model="displayIndex"
+      type="text"
+      name="displayIndex"
+      @keyup.enter="inspectEndpoint"
+    >
     <pre>{{ `${endpoints.length} ${endpoint}` }}</pre>
     <pre>Query {{ query }}</pre>
 
@@ -32,13 +39,14 @@
       <!-- <div>{{ endpointItem.content.rendered }}</div> -->
     </div>
 
-    <pre>{{ endpoints[0] }}</pre>
+    <pre>{{ endpoints[displayIndex] }}</pre>
   </div>
 </template>
 
 <script setup lang="ts">
 const endpoint = ref('')
 const endpoints = ref([])
+const displayIndex = ref(0)
 
 const queryEndpoint = computed(() => {
   if (!endpoint.value) return ''
