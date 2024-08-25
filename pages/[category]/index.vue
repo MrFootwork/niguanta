@@ -5,7 +5,7 @@
     <div>Category Count {{ categories.length }}</div>
 
     <div
-      v-for="post in postsByCategory"
+      v-for="post in postsByCurrentCategory"
       :key="post.id"
     >
       <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
@@ -35,11 +35,11 @@ const categoryStore = useCategoryStore()
 const postStore = usePostStore()
 
 const { categories, currentCategory } = storeToRefs(categoryStore)
-const { postsByCategory } = storeToRefs(postStore)
+const { postsByCurrentCategory } = storeToRefs(postStore)
 
 onMounted(async () => {
   navigationStore.currentCategoryId = categoryStore.getCategoryIdBySlug(categorySlug)
-  const postByCategoryCountMatch = postsByCategory.value.length === currentCategory.value?.count
+  const postByCategoryCountMatch = postsByCurrentCategory.value.length === currentCategory.value?.count
   if (!postByCategoryCountMatch) await postStore.fetchPostsByCategory()
 })
 </script>

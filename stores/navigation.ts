@@ -38,9 +38,6 @@ export const useNavigationStore = defineStore('navigation', () => {
   }
 
   // GETTERS
-  const tagsAvailableBySelectedPosts = computed(() => {
-
-  })
 
   return {
     // state
@@ -54,6 +51,5 @@ export const useNavigationStore = defineStore('navigation', () => {
     initializeFilterSelection,
     toggleTagFilter,
     // getters
-    tagsAvailableBySelectedPosts,
   }
 })

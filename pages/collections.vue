@@ -1,14 +1,31 @@
 <template>
   <div class="category-list-container">
-    this is collections
+    <!-- FIXME style category cards -->
     <div
-      v-for="category in categoryStore.categories"
+      v-for="category in categoryStore.categories.filter(cat => cat.count)"
       :key="category.id"
       class="category-wrapper"
     >
       <NuxtLink :to="{ path: category.slug }">
+
         <div>{{ category.id }}</div>
         <div>{{ category.name }}</div>
+
+        <div>{{ chooseCategoryMedia(category.id) }}</div>
+
+        <!-- <pre>{{ mediaStore.media.find(media => media.id ===chooseCategoryMedia(category.id))?.media_details.sizes.thumbnail.source_url }}</pre> -->
+        <pre>{{ imageURL(chooseCategoryMedia(category.id)) }}</pre>
+        <pre>{{ mediaOfCategory(chooseCategoryMedia(category.id))?.title.rendered }}</pre>
+        <img
+          :src="imageURL(chooseCategoryMedia(category.id))"
+          :alt="mediaOfCategory(chooseCategoryMedia(category.id))?.alt_text"
+        >
+        <!-- <div
+          v-for="post in postsByCategory(category.id)"
+          :key="post.id"
+        >
+          <div v-html="post.title.rendered" />
+        </div> -->
       </NuxtLink>
     </div>
   </div>
@@ -16,6 +33,43 @@
 
 <script setup lang="ts">
 const categoryStore = useCategoryStore()
+const postStore = usePostStore()
+const mediaStore = useMediaStore()
+
+const chooseCategoryMedia = computed(() => {
+  return (categoryId: number) => {
+    const categoryPosts = postStore.postsByCategory(categoryId)
+    return categoryPosts[0]?.featured_media || 0
+  }
+})
+
+const mediaOfCategory = computed(() => {
+  return (mediaID: number) => {
+    return mediaStore.media.find(media => media.id === mediaID)
+  }
+})
+const imageURL = computed(() => {
+  return (mediaID: number) => {
+    return mediaStore.media.find(media => media.id === mediaID)?.media_details.sizes.thumbnail.source_url
+  }
+})
+
+// const chooseCategoryMedia = (categoryId: number) => {
+//   return postStore.postsByCategory(categoryId)[0].featured_media
+// }
+
+// const chooseCategoryMedia = computed(() => {
+//   return (categoryId: number) => {
+//     return postStore.postsByCategory(categoryId)[0].featured_media
+//   }
+// })
+// const chooseCategoryMedia = computed(() => {
+//   // const chosenCategoryMedia = (categoryId: number) => {
+//   //   return postStore.postsByCategory(categoryId)[0].featured_media
+//   // }
+//   return postStore.postsByCategory(categoryId)[0].featured_media
+//   // return mediaStore.media.find(media => media.id === chooseCategoryMedia.value.id)
+// })
 </script>
 
 <style scoped lang="scss">

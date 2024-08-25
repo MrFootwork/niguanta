@@ -47,11 +47,25 @@ export const usePostStore = defineStore('posts', () => {
   }
 
   // GETTERS
-  const postsByCategory = computed(() => {
+  const postsByCurrentCategory = computed(() => {
     return posts.value.filter((post) => {
       return (post.categories![0]) === currentCategoryId.value
     })
   })
+
+  const postsByCategory = computed(() => {
+    return (categoryId: number) => {
+      return posts.value.filter((post) => {
+        return (post.categories?.includes(categoryId))
+      })
+    }
+  })
+
+  // function postsByCategory(categoryId: number) {
+  //   return posts.value.filter((post) => {
+  //     return (post.categories?.includes(categoryId))
+  //   })
+  // }
 
   const currentPost = computed(() => {
     return posts.value.find(post => post?.id === currentPostId.value)
@@ -94,6 +108,7 @@ export const usePostStore = defineStore('posts', () => {
     fetchAllPosts,
     // getters
     postsIncludeSlug,
+    postsByCurrentCategory,
     postsByCategory,
     postsFilteredByTagSelection,
     getPostIdBySlug,
