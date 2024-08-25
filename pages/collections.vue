@@ -1,6 +1,7 @@
 <template>
   <div class="category-list-container">
     <!-- FIXME style category cards -->
+    <!-- FIXME add long/short filter -->
     <div
       v-for="category in categoryStore.categories.filter(cat => cat.count)"
       :key="category.id"
@@ -11,21 +12,16 @@
         <div>{{ category.id }}</div>
         <div>{{ category.name }}</div>
 
-        <div>{{ chooseCategoryMedia(category.id) }}</div>
+        <!-- <div>{{ chooseCategoryMedia(category.id) }}</div> -->
 
         <!-- <pre>{{ mediaStore.media.find(media => media.id ===chooseCategoryMedia(category.id))?.media_details.sizes.thumbnail.source_url }}</pre> -->
-        <pre>{{ imageURL(chooseCategoryMedia(category.id)) }}</pre>
-        <pre>{{ mediaOfCategory(chooseCategoryMedia(category.id))?.title.rendered }}</pre>
+        <!-- <pre>{{ imageURL(chooseCategoryMedia(category.id)) }}</pre> -->
+        <!-- <pre>{{ mediaOfCategory(chooseCategoryMedia(category.id))?.title.rendered }}</pre> -->
         <img
           :src="imageURL(chooseCategoryMedia(category.id))"
           :alt="mediaOfCategory(chooseCategoryMedia(category.id))?.alt_text"
         >
-        <!-- <div
-          v-for="post in postsByCategory(category.id)"
-          :key="post.id"
-        >
-          <div v-html="post.title.rendered" />
-        </div> -->
+        <div>{{ postStore.postsByCategory(category.id).length }} Posts</div>
       </NuxtLink>
     </div>
   </div>
