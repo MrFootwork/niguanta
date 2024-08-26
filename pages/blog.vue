@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <OverviewPostFilter />
+    <OverviewFilterPost />
     <div class="post-container">
       <OverviewPostCard
         v-for="post in postStore.posts"

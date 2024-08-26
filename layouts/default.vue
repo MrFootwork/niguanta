@@ -89,7 +89,7 @@ onBeforeMount(async () => {
 
   if (tags.value.length === 0) {
     tagStore.fetchTags()
-    navigationStore.initializeFilterSelection(tagStore.tags)
+    navigationStore.initializeFilterSelection()
   }
 
   if (posts.value.length <= 1) {

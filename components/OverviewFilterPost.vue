@@ -1,23 +1,18 @@
 <template>
   <div class="filter-container">
-    <!-- <div>{{ tags.filter(tag => tag.count !== 1).length }}</div>
-    <div>{{ tags.filter(tag => tag.count === 1).length }}</div>
-    <div>{{ tags.length }}</div>
-    <br> -->
-    <!-- <pre>{{ tags }}</pre> -->
-    <OverviewPostFilterCheckbox
+    <OverviewFilterCheckbox
       key="long"
       :filter-item="filterItemLong"
       class="filter-item"
       :disabled="!isIncludedInFilteredPosts(IDs.longStory)"
     />
-    <OverviewPostFilterCheckbox
+    <OverviewFilterCheckbox
       key="short"
       :filter-item="filterItemShort"
       class="filter-item"
       :disabled="!isIncludedInFilteredPosts(IDs.shortStory)"
     />
-    <OverviewPostFilterCheckbox
+    <OverviewFilterCheckbox
       v-for="filterItem in filterItemsTags"
       :key="filterItem.id"
       class="filter-item"
