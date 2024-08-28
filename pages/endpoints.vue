@@ -56,7 +56,8 @@ const query = ref('')
 
 async function inspectEndpoint() {
   try {
-    endpoints.value = await $fetch(`${useRuntimeConfig().public.wpRestApiBaseUrl}/${queryEndpoint.value}${query.value}`)
+    endpoints.value = await $fetch(
+      `${useRuntimeConfig().public.wpRestApiBaseUrl}/${queryEndpoint.value}${query.value}`)
   }
   catch (e) {
     console.error(e)
