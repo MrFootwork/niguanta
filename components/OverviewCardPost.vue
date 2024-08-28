@@ -8,10 +8,12 @@
 
     <div class="image-container">
       <img
-        :src="mediaStore.media.find(media => media.id === post.featured_media)?.media_details.sizes?.medium?.source_url"
+        :src="mediaStore.media.find(media =>
+          media.id === post.featured_media)
+          ?.media_details.sizes?.medium?.source_url"
         alt="test"
       >
-      <div
+      <h4
         class="post-title"
         v-html="post.title.rendered"
       />

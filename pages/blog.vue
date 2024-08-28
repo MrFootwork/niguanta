@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
-    <OverviewPostFilter />
+    <OverviewFilterPost />
     <div class="post-container">
-      <OverviewPostCard
+      <OverviewCardPost
         v-for="post in postStore.posts"
         :key="post.id"
         :post="post"

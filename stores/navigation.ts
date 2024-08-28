@@ -1,4 +1,4 @@
-import type { WP_REST_API_Tag, WP_REST_API_Tags } from 'wp-types'
+import type { WP_REST_API_Tag } from 'wp-types'
 import IDs from '../data/IDs.json'
 
 const unset = 0
@@ -15,13 +15,10 @@ export const useNavigationStore = defineStore('navigation', () => {
   const storyTypes = [IDs.longStory, IDs.shortStory]
 
   // ACTIONS
-  function initializeFilterSelection(tags: WP_REST_API_Tags) {
+  function initializeFilterSelection() {
+    currentFilterSelection.value = {}
     currentFilterSelection.value[IDs.longStory] = false
     currentFilterSelection.value[IDs.shortStory] = false
-
-    tags.forEach((tag) => {
-      currentFilterSelection.value[tag.id] = false
-    })
   }
 
   function toggleTagFilter(tagId: WP_REST_API_Tag['id']) {
@@ -37,10 +34,12 @@ export const useNavigationStore = defineStore('navigation', () => {
     }
   }
 
-  // GETTERS
-  const tagsAvailableBySelectedPosts = computed(() => {
+  function resetFilterSelection() {
+    initializeFilterSelection()
+    selectedTags.value = []
+  }
 
-  })
+  // GETTERS
 
   return {
     // state
@@ -53,7 +52,7 @@ export const useNavigationStore = defineStore('navigation', () => {
     // actions
     initializeFilterSelection,
     toggleTagFilter,
+    resetFilterSelection,
     // getters
-    tagsAvailableBySelectedPosts,
   }
 })

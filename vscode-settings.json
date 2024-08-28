@@ -1,0 +1,101 @@
+{
+    // brackets
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": true,
+    "editor.guides.highlightActiveIndentation": true,
+    // TODO
+    "todo-tree.highlights.defaultHighlight": {
+        "type": "tag",
+        "foreground": "#ffa600"
+    },
+    "todo-tree.highlights.customHighlight": {
+        "TODO": {
+            "iconColour": "#1eff00"
+        },
+        "FIXME": {
+            "iconColour": "#ff0000"
+        }
+    },
+    // Formatting
+    "prettier.configPath": ".prettierrc",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "scss.lint.unknownAtRules": "ignore",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.format.enable": true,
+    "prettier.useEditorConfig": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "always"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "sibiraj-s.vscode-scss-formatter"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "files.associations": {
+        "*.svg": "html"
+        // "*.html": "twig"
+    },
+    "emmet.includeLanguages": {
+        "twig": "html"
+    },
+    "scssFormatter.singleQuote": true,
+    "scss.format.newlineBetweenSelectors": false,
+    "twig-language-2.preserveComment": true,
+    "twig-language-2.wrap": 80,
+    "html.format.wrapLineLength": 80,
+    "css.enabledLanguages": [
+        "html",
+        "vue"
+    ],
+    // cSpell
+    "cSpell.language": "en,de-de",
+    "cSpell.userWords": [
+        "nuxi",
+        "nuxt",
+        "NUXT",
+        "pinia",
+        "typecheck"
+    ],
+    // terminal
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "terminal.integrated.fontFamily": "'Cascadia Code', 'JetbrainsMono Nerd Font', 'FiraCode Nerd Font', 'Hack Nerd Font', 'monospace'",
+    "terminal.integrated.lineHeight": 1.1,
+    // unspecified
+    "editor.fontFamily": "cascadia code, consolas",
+    "editor.fontSize": 14,
+    "editor.fontWeight": 400,
+    "editor.fontLigatures": true,
+    "editor.linkedEditing": true,
+    "workbench.colorTheme": "One Monokai",
+    "workbench.editor.wrapTabs": true,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDelete": false,
+    "git.confirmSync": false,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "gitlens.changes.locations": [
+        "gutter",
+        "overview",
+        "line"
+    ],
+    "workbench.iconTheme": "material-icon-theme",
+    "gitlens.views.searchAndCompare.files.layout": "list"
+}
