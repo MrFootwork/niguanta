@@ -2,7 +2,7 @@
   <div class="page-container">
     <OverviewFilterPost />
     <div class="post-container">
-      <OverviewPostCard
+      <OverviewCardPost
         v-for="post in postStore.posts"
         :key="post.id"
         :post="post"

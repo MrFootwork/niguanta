@@ -53,6 +53,7 @@ const isIncludedInFilteredPosts = computed(() => {
   flex-flow: row;
   flex-wrap: wrap;
   gap: .5rem;
+  justify-content: center;
 
   .filter-item {
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <OverviewFilterCategory />
+    <OverviewFilterCategory class="filter" />
     <ul class="category-list-container">
       <!-- FIXME style category cards -->
       <li
@@ -8,19 +8,7 @@
         :key="category.id"
         class="category-wrapper"
       >
-        <NuxtLink :to="{ path: category.slug }">
-          <div>{{ category.id }}</div>
-          <div>{{ category.name }}</div>
-          <!-- <div>{{ chooseCategoryMedia(category.id) }}</div> -->
-          <!-- <pre>{{ mediaStore.media.find(media => media.id ===chooseCategoryMedia(category.id))?.media_details.sizes.thumbnail.source_url }}</pre> -->
-          <!-- <pre>{{ imageURL(chooseCategoryMedia(category.id)) }}</pre> -->
-          <!-- <pre>{{ mediaOfCategory(chooseCategoryMedia(category.id))?.title.rendered }}</pre> -->
-          <img
-            :src="imageURL(chooseCategoryMedia(category.id))"
-            :alt="mediaOfCategory(chooseCategoryMedia(category.id))?.alt_text"
-          >
-          <div>{{ postStore.postsByCategory(category.id).length }} Posts</div>
-        </NuxtLink>
+        <OverviewCardCategory :category="category" />
       </li>
     </ul>
   </div>
@@ -29,29 +17,9 @@
 <script setup lang="ts">
 const navigationStore = useNavigationStore()
 const categoryStore = useCategoryStore()
-const postStore = usePostStore()
-const mediaStore = useMediaStore()
 
 onMounted(() => {
   navigationStore.resetFilterSelection()
-})
-
-const chooseCategoryMedia = computed(() => {
-  return (categoryId: number) => {
-    const categoryPosts = postStore.postsByCategory(categoryId)
-    return categoryPosts[0]?.featured_media || 0
-  }
-})
-
-const mediaOfCategory = computed(() => {
-  return (mediaID: number) => {
-    return mediaStore.media.find(media => media.id === mediaID)
-  }
-})
-const imageURL = computed(() => {
-  return (mediaID: number) => {
-    return mediaStore.media.find(media => media.id === mediaID)?.media_details.sizes.thumbnail.source_url
-  }
 })
 
 const categoriesFiltered = computed(() => {
@@ -69,13 +37,21 @@ const categoriesFiltered = computed(() => {
 </script>
 
 <style scoped lang="scss">
+.filter {
+  margin: 1rem auto;
+}
+
 .category-list-container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0 5vw;
+    padding: 1rem 0;
 
     .category-wrapper {
-        margin: 1rem auto;
-        padding: 0 3rem;
+        // margin: 1rem auto;
+        // padding: 0 3rem;
 
     }
 }
