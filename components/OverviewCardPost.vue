@@ -4,8 +4,6 @@
     :to="`/${categoryStore.getCategorySlugById(post.categories![0])}/${post.slug}`"
     class="card-container"
   >
-    <!-- <div><span v-html="post.title.rendered" /></div> -->
-
     <div class="image-container">
       <img
         :src="mediaStore.media.find(media =>
@@ -68,7 +66,9 @@ const mediaStore = useMediaStore()
 
       font-size: large;
       color: white;
-      text-shadow: 1px 1px 2px black, -1px -1px 4px steelblue;
+      text-shadow:
+        1px 1px 2px black,
+        -1px -1px 4px steelblue;
     }
 
     .post-title {
