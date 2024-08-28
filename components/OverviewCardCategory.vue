@@ -2,6 +2,7 @@
   <NuxtLink
     :to="{ path: category.slug }"
     class="card-wrapper"
+    @click="navigationStore.currentCategoryId = category.id"
   >
     <div class="image-wrapper">
       <img
@@ -25,6 +26,7 @@ const { category } = defineProps<{
 
 const postStore = usePostStore()
 const mediaStore = useMediaStore()
+const navigationStore = useNavigationStore()
 
 const chooseCategoryMedia = computed(() => {
   return (categoryId: number) => {

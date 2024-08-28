@@ -31,7 +31,15 @@
       </ul>
     </nav>
 
-    <div style="position: fixed; bottom: 0; right: 0; background-color: rgba(160, 230, 230, 0.5)">
+    <div
+      style="
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(160, 230, 230, 0.5);
+        backdrop-filter: blur(2px)
+      "
+    >
       <div>Navigation Page: {{ currentPageId }}</div>
       <div>Navigation Category: {{ currentCategoryId }}</div>
       <div>Navigation Post: {{ currentPostId }}</div>
@@ -54,25 +62,20 @@ import { usePostStore } from '@/stores/posts'
 
 const route = useRoute()
 const categorySlug = route.params.category
-// const postSlug = route.params.post
-// console.log('🚀 ~ categorySlug, postSlug:', categorySlug, postSlug)
+console.log('🚀 ~ categorySlug:', categorySlug)
 
 const tagStore = useTagStore()
-const { tags } = storeToRefs(tagStore)
-
 const pageStore = usePageStore()
-const { pages } = storeToRefs(pageStore)
-
 const categoryStore = useCategoryStore()
-const { categories } = storeToRefs(categoryStore)
-
 const postStore = usePostStore()
-const { posts } = storeToRefs(postStore)
-
 const mediaStore = useMediaStore()
-const { media } = storeToRefs(mediaStore)
-
 const navigationStore = useNavigationStore()
+
+const { tags } = storeToRefs(tagStore)
+const { pages } = storeToRefs(pageStore)
+const { categories } = storeToRefs(categoryStore)
+const { posts } = storeToRefs(postStore)
+const { media } = storeToRefs(mediaStore)
 const { currentPageId, currentCategoryId, currentPostId } = storeToRefs(navigationStore)
 
 // Set Navigation
@@ -81,15 +84,15 @@ onBeforeMount(async () => {
     pageStore.fetchPages()
   }
 
-  if (categories.value.length === 0) {
-    categoryStore.fetchCategories()
-    const categoryId = categoryStore.getCategoryIdBySlug(categorySlug as string)
-    navigationStore.currentCategoryId = categoryId
-  }
-
   if (tags.value.length === 0) {
     tagStore.fetchTags()
     navigationStore.initializeFilterSelection()
+  }
+
+  if (categories.value.length === 0) {
+    await categoryStore.fetchCategories()
+    const categoryId = categoryStore.getCategoryIdBySlug(categorySlug as string)
+    navigationStore.currentCategoryId = categoryId
   }
 
   if (posts.value.length <= 1) {
@@ -154,6 +157,7 @@ onMounted(() => {
     position: sticky;
     top: 0;
     z-index: 1000;
+    backdrop-filter: blur(2px);
 
     &.sticking {
       background-color: rgb(250, 240, 230, .8);
