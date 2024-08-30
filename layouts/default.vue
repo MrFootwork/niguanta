@@ -62,7 +62,6 @@ import { usePostStore } from '@/stores/posts'
 
 const route = useRoute()
 const categorySlug = route.params.category
-console.log('🚀 ~ categorySlug:', categorySlug)
 
 const tagStore = useTagStore()
 const pageStore = usePageStore()
