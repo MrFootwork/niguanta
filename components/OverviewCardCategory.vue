@@ -43,6 +43,10 @@ const mediaOfCategory = computed(() => {
 
 const imageURL = computed(() => {
   return (mediaID: number) => {
+    // @ts-expect-error: media_details object is not defined in wp-types
+    // (property) media_details: {
+    //     [k: string]: unknown;
+    // }
     return mediaStore.media.find(media => media.id === mediaID)
       ?.media_details.sizes.thumbnail.source_url
   }

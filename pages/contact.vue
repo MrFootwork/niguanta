@@ -54,22 +54,22 @@ const form = ref({
 const successMessage = ref('')
 const errorMessage = ref('')
 
-const mail = useMail()
+// const mail = useMail()
 
 async function submitForm() {
   try {
-    mail.send({
-      from: form.value.name,
-      subject: 'A reader wants to contact you!',
-      recipient: form.value.email,
-      text: `
-        Name: ${form.value.name}
-        \nEmail: ${form.value.email}
-        \nMessage: ${form.value.message}`,
-      // FIXME Try email templates via https://nuxt.com/modules/vue-email
-      html: `<h1>My HTML</h1>
-      <p>${form.value.message}</p>`,
-    })
+    // mail.send({
+    //   from: form.value.name,
+    //   subject: 'A reader wants to contact you!',
+    //   recipient: form.value.email,
+    //   text: `
+    //     Name: ${form.value.name}
+    //     \nEmail: ${form.value.email}
+    //     \nMessage: ${form.value.message}`,
+    //   // FIXME Try email templates via https://nuxt.com/modules/vue-email
+    //   html: `<h1>My HTML</h1>
+    //   <p>${form.value.message}</p>`,
+    // })
 
     successMessage.value = 'Your message has been sent successfully!'
     errorMessage.value = ''
