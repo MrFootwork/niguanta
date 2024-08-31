@@ -4,9 +4,10 @@ import { Resend } from 'resend'
 const resend = new Resend(process.env.NUXT_MAIL_RESEND_API_KEY)
 export default defineEventHandler(async () => {
   const { data, error } = await resend.emails.send({
-    from: 'Website <mail@pandau.de>',
-    to: ['pandau@gmail.com'],
+    from: 'Website <no-reply@pandau.de>',
+    to: ['pandau.ting+niguanta@gmail.com'],
     subject: 'Hello world',
+    text: 'This works great!',
     html: '<strong>It works!</strong>',
   })
 
@@ -32,6 +33,8 @@ export default defineEventHandler(async () => {
       message: error.message,
     })
   }
+
+  console.log('🚀 ~ defineEventHandler ~ data:', data)
 
   return data
 })

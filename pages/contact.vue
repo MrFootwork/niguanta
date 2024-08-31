@@ -54,27 +54,7 @@ const form = ref({
 const successMessage = ref('')
 const errorMessage = ref('')
 
-// const mail = useMail()
-
 async function submitForm() {
-  // try {
-  // mail.send({
-  //   from: form.value.name,
-  //   subject: 'A reader wants to contact you!',
-  //   recipient: form.value.email,
-  //   text: `
-  //     Name: ${form.value.name}
-  //     \nEmail: ${form.value.email}
-  //     \nMessage: ${form.value.message}`,
-  //   // FIXME Try email templates via https://nuxt.com/modules/vue-email
-  //   html: `
-  //     <h1>My HTML</h1>
-  //     <ul>
-  //       <li>Name: ${form.value.name}</li>
-  //       <li>Mail: ${form.value.email}</li>
-  //       <li>Message: <p>${form.value.message}</p></li>
-  //     </ul>`,
-  // })
   const { data, error } = await $fetch('/api/send', {
     method: 'POST',
     body: form.value,
@@ -97,7 +77,7 @@ async function submitForm() {
 
   successMessage.value = 'Your message has been sent successfully!'
   errorMessage.value = ''
-  form.value = { name: '', email: '', message: '' }
+  // form.value = { name: '', email: '', message: '' }
   return
 }
 </script>

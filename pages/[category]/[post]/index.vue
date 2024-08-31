@@ -2,8 +2,6 @@
   <div>
     <h5>Post Index</h5>
     <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
-    <!-- <pre>currentPost: {{ currentMedia }}</pre> -->
-    <!-- FIXME add hero with title and image -->
     <div class="hero-container">
       <img
         :src="currentMedia?.media_details.sizes?.large?.source_url"
