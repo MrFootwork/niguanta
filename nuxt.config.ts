@@ -1,3 +1,5 @@
+import vue from '@vitejs/plugin-vue'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -27,6 +29,14 @@ export default defineNuxtConfig({
   eslint: {
     config: {
       stylistic: true,
+    },
+  },
+  nitro: {
+    rollupConfig: {
+      // setup for vue-mail enables using email template on server
+      // https://vuemail.net/getting-started/nuxt-nitro#usage
+      // @ts-expect-error: Don't know why this happens.
+      plugins: [vue()],
     },
   },
   runtimeConfig: {

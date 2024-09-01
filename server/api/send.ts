@@ -1,18 +1,41 @@
 import { Resend } from 'resend'
+import { render } from '@vue-email/render'
+import MyTemplate from '~/templates/EmailContact.vue'
 
 const config = useRuntimeConfig()
 const resend = new Resend(config.resendAPIToken)
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
+  const body = await readBody(event)
+  const props = {
+    title: 'BANANAS 🍌🍌🍌',
+    name: body.name,
+    email: body.email,
+    message: body.message,
+  }
+
+  // render email
+  const html = await render(MyTemplate, props, {
+    pretty: true,
+  })
+
+  const text = await render(MyTemplate, props, {
+    plainText: true,
+  })
+
+  // send email
   const { data, error } = await resend.emails.send({
     from: config.mailSender,
     // to: [config.mailTarget],
     to: ['pandau.ting@outlook.com', 'mail@pandau.de', 'pandau.ting@gmail.com'],
-    subject: 'Hello world',
-    text: 'This works great!',
-    html: '<strong>It works!</strong>',
+    subject: `Contact Form used by ${props.name}`,
+    text,
+    html,
   })
 
+  console.log('🚀 ~ defineEventHandler ~ data, error:', data, error)
+
+  // handle errors
   if (error) {
     console.error(error)
     // @ts-expect-error: resend doesn't type statusCode on response.
@@ -36,7 +59,6 @@ export default defineEventHandler(async () => {
     })
   }
 
-  console.log('🚀 ~ defineEventHandler ~ data:', data)
-
+  // return email id from resend
   return data
 })

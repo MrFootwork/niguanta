@@ -89,7 +89,7 @@ onBeforeMount(async () => {
   }
 
   if (categories.value.length === 0) {
-    await categoryStore.fetchCategories()
+    categoryStore.fetchCategories()
     const categoryId = categoryStore.getCategoryIdBySlug(categorySlug as string)
     navigationStore.currentCategoryId = categoryId
   }

@@ -1,7 +1,7 @@
 <template>
+  <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
   <div>
     <h5>Post Index</h5>
-    <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
     <div class="hero-container">
       <img
         :src="src"
@@ -17,8 +17,8 @@
     <article>
       <span v-html="currentPost?.content.rendered" />
     </article>
-    <!-- eslint-enable -->
   </div>
+  <!-- eslint-enable -->
 </template>
 
 <script setup lang="ts">
