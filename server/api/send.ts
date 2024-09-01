@@ -1,10 +1,12 @@
 import { Resend } from 'resend'
 
-// FIXME remove nuxt-mail, if this works
-const resend = new Resend(process.env.NUXT_MAIL_RESEND_API_KEY)
+const config = useRuntimeConfig()
+const resend = new Resend(config.resendAPIToken)
+
 export default defineEventHandler(async () => {
   const { data, error } = await resend.emails.send({
-    from: 'Website <no-reply@pandau.de>',
+    from: config.mailSender,
+    // to: [config.mailTarget],
     to: ['pandau.ting@outlook.com', 'mail@pandau.de', 'pandau.ting@gmail.com'],
     subject: 'Hello world',
     text: 'This works great!',

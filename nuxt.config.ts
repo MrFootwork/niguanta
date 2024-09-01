@@ -32,6 +32,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // The private keys which are only available within server-side
     wordpressAccessToken: process.env.NUXT_WP_REST_API_ACCESS_TOKEN,
+    resendAPIToken: process.env.NUXT_MAIL_RESEND_API_KEY,
+    mailSender: process.env.NUXT_MAIL_SENDER,
+    mailTarget: process.env.NUXT_MAIL_TARGET,
     // Keys within public, will be also exposed to the client-side
     public: {
       wpRestApiBaseUrl: process.env.NUXT_WP_REST_API_BASE_URL,
