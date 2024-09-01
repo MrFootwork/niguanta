@@ -4,8 +4,6 @@ export const useMediaStore = defineStore('media', () => {
   // STATE
   const media = ref<WP_REST_API_Attachments>([])
 
-  const categoryStore = useCategoryStore()
-
   // ACTIONS
   async function fetchMedia(listOfMediaIDs: number[]) {
     media.value = []

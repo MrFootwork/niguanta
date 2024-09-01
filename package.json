@@ -17,7 +17,6 @@
     "@pinia/nuxt": "^0.5.3",
     "normalize.css": "^8.0.1",
     "nuxt": "^3.12.4",
-    "nuxt-mail": "^5.0.1",
     "pinia": "^2.2.1",
     "resend": "^4.0.0",
     "vue": "latest"

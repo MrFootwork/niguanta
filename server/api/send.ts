@@ -5,7 +5,7 @@ const resend = new Resend(process.env.NUXT_MAIL_RESEND_API_KEY)
 export default defineEventHandler(async () => {
   const { data, error } = await resend.emails.send({
     from: 'Website <no-reply@pandau.de>',
-    to: ['pandau.ting+niguanta@gmail.com'],
+    to: ['pandau.ting@outlook.com', 'mail@pandau.de', 'pandau.ting@gmail.com'],
     subject: 'Hello world',
     text: 'This works great!',
     html: '<strong>It works!</strong>',
