@@ -12,8 +12,9 @@ defineProps({
 <template>
   <Html lang="en">
     <body>
+      <!-- src="/bird-brings-mail.gif" -->
       <Img
-        src="/bird-brings-mail.gif"
+        src="https://feature-contact-form.niguanta.pages.dev/bird-brings-mail.gif"
         alt="bird brings mail"
         width="100%"
       />
