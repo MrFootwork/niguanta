@@ -8,7 +8,7 @@ const resend = new Resend(config.resendAPIToken)
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const props = {
-    title: 'BANANAS 🍌🍌🍌',
+    title: 'Email from niguanta blog',
     name: body.name,
     email: body.email,
     message: body.message,
@@ -26,8 +26,7 @@ export default defineEventHandler(async (event) => {
   // send email
   const { data, error } = await resend.emails.send({
     from: config.mailSender,
-    // to: [config.mailTarget],
-    to: ['pandau.ting@outlook.com', 'mail@pandau.de', 'pandau.ting@gmail.com'],
+    to: [config.mailTarget],
     subject: `Contact Form used by ${props.name}`,
     text,
     html,
