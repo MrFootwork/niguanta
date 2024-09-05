@@ -1,36 +1,80 @@
 <template>
-  <div>
-    <h2>Contact Us</h2>
+  <div class="form-wrapper">
+    <h2>Contact Niguanta</h2>
     <form @submit.prevent="submitForm">
-      <div>
-        <label for="name">Name:</label>
-        <input
-          id="name"
-          v-model="form.name"
-          type="text"
-          required
+      <div
+        class="input-wrapper"
+        style="grid-area: name"
+      >
+        <label for="name">Name</label>
+        <div class="input-field-wrapper">
+          <input
+            id="name"
+            v-model="form.name"
+            class="input-field"
+            type="text"
+            required
+          >
+        </div>
+      </div>
+
+      <div
+        class="input-wrapper"
+        style="grid-area: email;"
+      >
+        <label for="email">E-mail</label>
+        <div class="input-field-wrapper">
+          <input
+            id="email"
+            v-model="form.email"
+            class="input-field"
+            type="email"
+            required
+          >
+        </div>
+      </div>
+
+      <div
+        class="input-wrapper"
+        style="grid-area: topic;"
+      >
+        <label for="topic">Topic</label>
+        <div class="input-field-wrapper">
+          <input
+            id="topic"
+            v-model="form.topic"
+            class="input-field"
+            type="text"
+            required
+          >
+        </div>
+      </div>
+
+      <div
+        class="input-wrapper"
+        style="grid-area: message;"
+      >
+        <label for="message">Your Message</label>
+        <div class="input-field-wrapper">
+          <textarea
+            id="message"
+            v-model="form.message"
+            class="input-field"
+            required
+          />
+        </div>
+      </div>
+
+      <div
+        class="button-wrapper"
+        style="grid-area: button;"
+      >
+        <button
+          type="submit"
         >
+          Send
+        </button>
       </div>
-      <div>
-        <label for="email">Email:</label>
-        <input
-          id="email"
-          v-model="form.email"
-          type="email"
-          required
-        >
-      </div>
-      <div>
-        <label for="message">Message:</label>
-        <textarea
-          id="message"
-          v-model="form.message"
-          required
-        />
-      </div>
-      <button type="submit">
-        Send Message
-      </button>
     </form>
 
     <div v-if="successMessage">
@@ -48,6 +92,7 @@ import { ref } from 'vue'
 const form = ref({
   name: '',
   email: '',
+  topic: '',
   message: '',
 })
 
@@ -77,20 +122,65 @@ async function submitForm() {
 
   successMessage.value = 'Your message has been sent successfully!'
   errorMessage.value = ''
-  // form.value = { name: '', email: '', message: '' }
   return
 }
 </script>
 
-<style scoped>
-/* Add some basic styles */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+<style scoped lang="scss">
+.form-wrapper {
+  border: 1px solid black;
+  border-radius: var(--border-radius-contact-form__form);
+  background-color: var(--color-contact-form__background-color);
+  padding: 2rem;
 
-button {
-  margin-top: 10px;
+  h2 {
+    padding-bottom: 1rem;
+    font-size: 2rem;
+  }
+
+  form {
+    display: grid;
+    grid-template-areas:
+      "name email"
+      "topic topic"
+      "message message"
+      "button .";
+    gap: 1rem;
+
+    .input-wrapper {
+      display: flex;
+      flex-flow: column;
+
+      label {
+        padding-bottom: .5rem;
+      }
+
+      .input-field-wrapper {
+        border: 1px solid black;
+        border-radius: var(--border-radius-contact-form__input-field);
+        padding: 2px 10px;
+        background-color: var(--color-contact-form__input-field);
+
+        input, textarea {
+          border: none;
+          width: 100%;
+        }
+
+        .input-field {
+          background-color: var(--color-contact-form__input-field);
+        }
+      }
+
+    }
+
+    button {
+      margin-top: 10px;
+      background-color: var(--color-contact-form__button-send);
+      border: 1px solid black;
+      border-radius: 5rem;
+      padding: .25rem .5rem;
+      font-size: 1.2rem
+    }
+  }
 }
 </style>

@@ -1,4 +1,14 @@
 body {
+    /* colors */
     --color-brown: brown;
+    --color-contact-form__input-field: rgb(253, 187, 81);
+    --color-contact-form__button-send: rgb(218, 118, 94);
+    --color-contact-form__background-color: rgb(227, 196, 207);
+
+    /* border radius */
+    --border-radius-contact-form__form: 35px;
+    --border-radius-contact-form__input-field: 15px;
+
+    /* width */
     --content-width: min(100dvw, 900px);
 }

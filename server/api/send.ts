@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
     title: 'Email from niguanta blog',
     name: body.name,
     email: body.email,
+    topic: body.topic,
     message: body.message,
   }
 
