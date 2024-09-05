@@ -1,5 +1,9 @@
 <template>
   <div class="form-wrapper">
+    <img
+      src="/bird-brings-mail.gif"
+      alt=""
+    >
     <h2>Contact Niguanta</h2>
     <form @submit.prevent="submitForm">
       <div

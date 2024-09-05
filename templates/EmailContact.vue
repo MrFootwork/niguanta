@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Html, Text, Head } from '@vue-email/components'
+import { Html, Text, Heading, Img } from '@vue-email/components'
 
 defineProps({
   title: String,
@@ -11,10 +11,15 @@ defineProps({
 
 <template>
   <Html lang="en">
-    <Head>
-      <title>{{ title }}</title>
-    </Head>
     <body>
+      <Img
+        src="/bird-brings-mail.gif"
+        alt="bird brings mail"
+        width="100%"
+      />
+      <Heading as="h2">
+        {{ title }}
+      </heading>
       <Text>Name: {{ name }}</Text>
       <Text>E-Mail: {{ email }}</Text>
       <Text>Message: {{ message }}</Text>
