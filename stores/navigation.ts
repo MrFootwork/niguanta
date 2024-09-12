@@ -1,5 +1,5 @@
 import type { WP_REST_API_Tag } from 'wp-types'
-import IDs from '../data/IDs.json'
+import IDs from '../data/storyTypeID.json'
 
 const unset = 0
 

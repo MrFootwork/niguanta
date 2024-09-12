@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import IDs from '@/data/IDs.json'
+import IDs from '@/data/storyTypeID.json'
 import type { FILTER_Item } from '@/types/filter.js'
 
 const navigationStore = useNavigationStore()
