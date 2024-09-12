@@ -62,7 +62,6 @@ import { usePostStore } from '@/stores/posts'
 
 const route = useRoute()
 const categorySlug = route.params.category
-console.log('🚀 ~ categorySlug:', categorySlug)
 
 const tagStore = useTagStore()
 const pageStore = usePageStore()
@@ -90,7 +89,7 @@ onBeforeMount(async () => {
   }
 
   if (categories.value.length === 0) {
-    await categoryStore.fetchCategories()
+    categoryStore.fetchCategories()
     const categoryId = categoryStore.getCategoryIdBySlug(categorySlug as string)
     navigationStore.currentCategoryId = categoryId
   }

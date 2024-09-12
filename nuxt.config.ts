@@ -1,3 +1,5 @@
+import vue from '@vitejs/plugin-vue'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -29,9 +31,20 @@ export default defineNuxtConfig({
       stylistic: true,
     },
   },
+  nitro: {
+    rollupConfig: {
+      // setup for vue-mail enables using email template on server
+      // https://vuemail.net/getting-started/nuxt-nitro#usage
+      // @ts-expect-error: Don't know why this happens.
+      plugins: [vue()],
+    },
+  },
   runtimeConfig: {
     // The private keys which are only available within server-side
     wordpressAccessToken: process.env.NUXT_WP_REST_API_ACCESS_TOKEN,
+    resendAPIToken: process.env.NUXT_MAIL_RESEND_API_KEY,
+    mailSender: process.env.NUXT_MAIL_SENDER,
+    mailTarget: process.env.NUXT_MAIL_TARGET,
     // Keys within public, will be also exposed to the client-side
     public: {
       wpRestApiBaseUrl: process.env.NUXT_WP_REST_API_BASE_URL,

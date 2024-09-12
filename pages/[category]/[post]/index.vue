@@ -1,12 +1,10 @@
 <template>
+  <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
   <div>
     <h5>Post Index</h5>
-    <!-- eslint-disable vue/no-v-text-v-html-on-component vue/no-v-html -->
-    <!-- <pre>currentPost: {{ currentMedia }}</pre> -->
-    <!-- FIXME add hero with title and image -->
     <div class="hero-container">
       <img
-        :src="currentMedia?.media_details.sizes?.large?.source_url"
+        :src="src"
         :alt="currentMedia?.alt_text"
         class="hero-image"
       >
@@ -19,8 +17,8 @@
     <article>
       <span v-html="currentPost?.content.rendered" />
     </article>
-    <!-- eslint-enable -->
   </div>
+  <!-- eslint-enable -->
 </template>
 
 <script setup lang="ts">
@@ -39,6 +37,14 @@ const { currentPost } = storeToRefs(postStore)
 
 const currentMedia = computed(() => {
   return mediaStore.media.find(media => media.id === currentPost.value?.featured_media)
+})
+
+const src = computed(() => {
+  // @ts-expect-error: media_details object is not defined in wp-types
+  // (property) media_details: {
+  //     [k: string]: unknown;
+  // }
+  return currentMedia.value?.media_details.sizes?.large?.source_url
 })
 
 onBeforeMount(async () => {

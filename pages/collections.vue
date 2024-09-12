@@ -2,7 +2,6 @@
   <div>
     <OverviewFilterCategory class="filter" />
     <ul class="category-list-container">
-      <!-- FIXME style category cards -->
       <li
         v-for="category in categoriesFiltered"
         :key="category.id"
