@@ -22,14 +22,29 @@ export const useNavigationStore = defineStore('navigation', () => {
   }
 
   function toggleTagFilter(tagId: WP_REST_API_Tag['id']) {
-    // update all tags collection
+    const tagIDIsStoryType = Object.values(IDs).some(arrayID => arrayID === tagId)
+
+    // set current selection on true
     currentFilterSelection.value[tagId] = !currentFilterSelection.value[tagId]
 
-    // adjust selectedTags collection
+    if (tagIDIsStoryType) {
+      // deactivate non selected story tag
+      const allStoryTypeIDs = Object.values(IDs)
+      const tagsToUnselect = allStoryTypeIDs.toSpliced(Object.values(IDs).indexOf(tagId), 1)
+
+      tagsToUnselect.forEach((tagIDToUnselect) => {
+        currentFilterSelection.value[tagIDToUnselect] = false
+        if (selectedTags.value.includes(tagIDToUnselect)) {
+          selectedTags.value.splice(selectedTags.value.indexOf(tagIDToUnselect), 1)
+        }
+      })
+    }
+
+    // adjust selectedTags array
     if (currentFilterSelection.value[tagId]) {
       selectedTags.value.push(tagId)
     }
-    else {
+    else if (selectedTags.value.includes(tagId)) {
       selectedTags.value.splice(selectedTags.value.indexOf(tagId), 1)
     }
   }
