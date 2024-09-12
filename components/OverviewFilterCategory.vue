@@ -5,12 +5,14 @@
       :filter-item="filterItemLong"
       class="filter-item"
       :disabled="!isIncludedInFilteredPosts(IDs.longStory)"
+      :radio-name="'storyType'"
     />
     <OverviewFilterCheckbox
       key="short"
       :filter-item="filterItemShort"
       class="filter-item"
       :disabled="!isIncludedInFilteredPosts(IDs.shortStory)"
+      :radio-name="'storyType'"
     />
   </div>
 </template>
@@ -29,6 +31,7 @@ const filterItemLong = computed(() => {
     name: categoryStore.getCategoryNameById(IDs.longStory),
   } as FILTER_Item
 })
+
 const filterItemShort = computed(() => {
   return {
     id: IDs.shortStory,
@@ -54,9 +57,5 @@ const isIncludedInFilteredPosts = computed(() => {
   flex-wrap: wrap;
   gap: .5rem;
   justify-content: center;
-
-  .filter-item {
-
-  }
 }
 </style>

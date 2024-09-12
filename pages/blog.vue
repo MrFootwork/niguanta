@@ -14,7 +14,12 @@
 </template>
 
 <script setup lang="ts">
+const navigationStore = useNavigationStore()
 const postStore = usePostStore()
+
+onMounted(() => {
+  navigationStore.resetFilterSelection()
+})
 
 function isSelectedByTagFilter(postId: number): boolean {
   return Boolean(postStore.postsFilteredByTagSelection.find(post => post.id === postId))
